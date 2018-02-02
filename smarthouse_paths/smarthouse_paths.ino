@@ -81,8 +81,32 @@ void setup() {
 }// void setup end
 
 
+double x(double theAngle, double theRadius){
+  return cos( theAngle ) * theRadius;
+}
+  
+double y(double theAngle, double theRadius){
+  return sin( theAngle ) * theRadius;
+}
+  
+double angle(double theX, double theY){
+  return atan2(theY, theX);
+}
+  
+double radius(double theX, double theY){
+  return sqrt(theX * theX + theY * theY);
+}
+  
+double easeInOut(double theBlend) {
+  return (cos(PI + PI * theBlend) + 1) / 2;
+}
+  
+double blend(double theStart, double theEnd, double theBlend){
+  return theStart * (1 - theBlend) + theEnd * theBlend;
+}
+
 // change this value to slow things down or speed them up
-const double _myPeriodMicros = 600 * 1000 * 1000.;
+const double _myPeriodMicros = 600. * 1000. * 1000.;
 
 
 void loop() {
@@ -108,5 +132,3 @@ void loop() {
     digitalWrite(StepPinA, stepAstate);
   }
 }
-
-//-- Code end ---
