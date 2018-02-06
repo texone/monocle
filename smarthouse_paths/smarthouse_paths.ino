@@ -48,7 +48,7 @@ double _myYEnd = 0;
 long myLastMicros;
 
 // change this value to slow things down or speed them up
-const double PERIOD_MICROS = 6. * 1000. * 1000.;
+const double PERIOD_MICROS = 60. * 1000. * 1000.;
 
 const double MAX_ANGLE = radians(175.0 / 2.);
 const double MAX_ANGLE_STEPS = MAX_STEPS_A / 2;
