@@ -1,6 +1,10 @@
 #ifndef __Cartesian__
 #define __Cartesian__
 
+/**
+ * Contains structs and converstions methods for polar and cartesian coordinates
+ */
+
 struct Cartesian{
   double x;
   double y;

@@ -1,11 +1,15 @@
 #ifndef __Constants__
 #define __Constants__
 
+/**
+ * Contains application constants
+ */
 //Declares
 const int LED_PIN =  LED_BUILTIN; // #13=the number of the LED pin
 
 const int STEP_PIN_A = 10;    //motor1
 const int DIR_PIN_A = 9;      // motor1
+
 const int STEP_PIN_Z = 12;    //motor2
 const int DIR_PIN_Z = 11;     // motor2
 

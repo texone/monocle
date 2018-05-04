@@ -100,7 +100,7 @@ void setup() {
  
   setTargetPosition();
 
-  animFunction = quickGaze;
+  animFunction = pendular;
 
 }// void setup end
 
@@ -121,13 +121,21 @@ void loop() {
     _myProgress -= 1;
   }
   
+  Polar myPolarCoords = toPolar(blends);
+
+  /** 
+   *  this should be the entry point for the motor control
+   *  the animationsfunctions should pass valid cartesian coordinates 
+   *  sofar there is no interpolation between the different animation functions
+   */
+ 
+  
   /*
   Serial.print(degrees(myBlendAngle));
   Serial.print(",");
   Serial.println(myBlendRadius);
  */
 
-  Polar myPolarCoords = toPolar(blends);
     
    
   long myStepA = long(myPolarCoords.a / MAX_ANGLE * MAX_ANGLE_STEPS);
