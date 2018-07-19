@@ -8,6 +8,36 @@
 
 typedef Cartesian (*animFuncPtr)(double);
 
+double easeInOut(double theBlend) {
+  return (cos(PI + PI * theBlend) + 1) / 2;
+}
+
+Cartesian _myStart = (Cartesian){0,0};
+Cartesian _myEnd = (Cartesian){0,0};
+
+void setTargetPosition(){
+  _myStart = _myEnd;
+      
+  double myAngle = random(-100000,100000) / 100000. * MAX_ANGLE;
+  double myRadius = random(66666,100000) / 100000.;
+
+  _myEnd = toCartesian((Polar){myAngle, myRadius});
+}
+
+Cartesian quickGaze(double theProgress){
+  
+  
+  double myEasedBlend = easeInOut(theProgress);
+
+  Cartesian myResult =  blend(_myStart, _myEnd, myEasedBlend);
+
+  if(theProgress > 1.){
+    setTargetPosition();
+  }
+
+  return myResult;
+}
+
 double hauntedY = 0.66;
 
 Cartesian hauntedHouseHorizontal(double theProgress){

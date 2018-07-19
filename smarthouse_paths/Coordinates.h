@@ -29,4 +29,15 @@ Polar toPolar(Cartesian theCartesian){
   };
 }
 
+double blend(double theStart, double theEnd, double theBlend){
+  return theStart * (1 - theBlend) + theEnd * theBlend;
+}
+
+Cartesian blend(Cartesian theStart, Cartesian theEnd, double theBlend){
+  return (Cartesian){
+    theStart.x * (1 - theBlend) + theEnd.x * theBlend,
+    theStart.y * (1 - theBlend) + theEnd.y * theBlend,
+  };
+}
+
 #endif
