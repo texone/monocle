@@ -72,8 +72,27 @@ theAnimationManager->randomMove.maxCycles = 6;
 theAnimationManager->randomMove.moveTime = 5;
 theAnimationManager->randomMove.breakTime = 5;
 ```
+It is also possible to variate the move and brake time using random factors. The random factor can range from 0 to 1 0 means no random 1 means that the actual value is between 0 and double the time. For the move time you need to ensure that there is enough time for the motor to move so a random factor of 1 should not be used as the motor can not move in zero time. Here is a setting icluding random factors.
+```
+theAnimationManager->randomMove.minCycles = 3;
+theAnimationManager->randomMove.maxCycles = 6;
 
+theAnimationManager->randomMove.moveTime = 5;
+theAnimationManager->randomMove.breakTime = 5;
+      
+theAnimationManager->randomMove.moveTimeRandom = 0.2;
+theAnimationManager->randomMove.breakTimeRandom = 0.8;
+```
+With this values the move time will range from 4 to 6 the breaktime from 1 to 9 seconds.
 
+#### timing for roll animations
+
+For the roll animation the duration off one cycle is determined by the the frequency value a frequency of 1 means one cycle per second a frequency of 0.1 means a cycle takes 10 seconds. So to let the full roll animation do an animation between 3 to 6 cycles of 10 second length you would use this setup.
+```
+theAnimationManager->fullRoll.frequency = 0.1;
+theAnimationManager->fullRoll.minCycles = 3;
+theAnimationManager->fullRoll.maxCycles = 6;
+```
 
 
 
