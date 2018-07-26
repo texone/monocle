@@ -5,6 +5,7 @@ Serial myPort;  // Create object from Serial class
 void setup() 
 {
   size(800, 800);
+  frameRate(30);
   // print out all ports find the arduino port
   for (String portName : Serial.list()) {
     println(portName);
@@ -98,16 +99,19 @@ void draw()
 {
   handleInput();
 
+  pushMatrix();
+  scale(width, height);
   background(0);
   fill(255);
-  ellipse(400, 400, 700, 700);
+  ellipse(0.5, 0.5, 0.9, 0.9);
 
   pushMatrix();
-  translate(400, 400);
+  translate(0.5, 0.5);
   rotate(angle * radians(175f / 2));
 
   fill(0);
-  ellipse(0, 250, 200, 200);
+  ellipse(0, 0.32, 0.25, 0.25);
+  popMatrix();
   popMatrix();
   
   drawCurves();
@@ -118,7 +122,7 @@ void draw()
   }
   
   if(saveFrames){
-    saveFrame("monocle-######.png");
+    saveFrame("monocle-######.gif");
     fill(255,0,0);
     rect(10,10,40,40);
   }
