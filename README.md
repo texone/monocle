@@ -14,6 +14,16 @@ motor->homing = false;
 ```
 Make sure debug is true and homing false for simulation, debug is false and homing true to run the installation.
 
+There are three animation modes for testing and installation
+* **PREVIEW** plays only the defined animation 
+* **CYCLE** plays all animations one after another and than starts with the first again
+* **RANDOM** plays all animations randomly according to defined propability values
+
+locate the following line in the setup.h tab to set the mode
+```
+theAnimationManager->mode = RANDOM;
+```
+
 now upload the program to the arduino with the upload button at the top.
 
 ## install and run the visualizer
@@ -81,6 +91,13 @@ theAnimationManager->randomRoll.propability   = 0.1;
 ### timing
 
 All animations give feedback how long they haved to be played back. There are two different concepts to pass the timing the still animations need a min and a max duration value. The move and roll animations need a min and max cycle value. Everytime the animation manager plays back an animation it sets the duration or cycle value to random value between min and max.
+
+#### timing between animations
+
+Because animations can start with any position there is a transition movement needed to switch from one to the next animation, the duration of this transition can be defined like this
+```
+theAnimationManager->transition.moveTime = 3;
+```
 
 #### timing for still animations
 
