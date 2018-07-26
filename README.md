@@ -52,7 +52,7 @@ theAnimationManager->baseStill.maxDuration = 10;
 ```
 #### timing for move animations
 
-Move animations have a move time value and a break time value the move time defines how long an animation moves the eyes the break time defines how long the eye is resting. With the min and max cycle value you can define how many movements the animation is playing until it is finished. So if you want the random move animation to move for 5 seconds and than rest for 5 seconds you would use the following setup. As you can see the animation does between 3 and 6 cycles meaning it moves to 3 to 6 random positions.
+Move animations have a move time value and a break time value the move time defines how long an animation moves the eye, the break time defines how long the eye is resting. With the min and max cycle value you can define how many movements the animation is playing until it is finished. So if you want the random move animation to move for 5 seconds and than rest for 5 seconds you would use the following setup. As you can see the animation does between 3 and 6 cycles meaning it moves to 3 to 6 random positions.
 ```
 theAnimationManager->randomMove.minCycles = 3;
 theAnimationManager->randomMove.maxCycles = 6;
@@ -60,7 +60,7 @@ theAnimationManager->randomMove.maxCycles = 6;
 theAnimationManager->randomMove.moveTime = 5;
 theAnimationManager->randomMove.breakTime = 5;
 ```
-It is also possible to variate the move and brake time using random factors. The random factor can range from 0 to 1 0 means no random 1 means that the actual value is between 0 and double the time. For the move time you need to ensure that there is enough time for the motor to move so a random factor of 1 should not be used as the motor can not move in zero time. Here is a setting icluding random factors.
+It is also possible to vary the move and brake time using random factors. The random factor can range from 0 to 1 0 means no random 1 means that the actual value is between 0 and double the time. For the move time you need to ensure that there is enough time for the motor to move so a random factor of 1 should not be used as the motor can not move in zero time. Here is a setting icluding random factors.
 ```
 theAnimationManager->randomMove.minCycles = 3;
 theAnimationManager->randomMove.maxCycles = 6;
@@ -126,6 +126,20 @@ Lets the eye jitter at a random position between 3 and 9 o' clock
 * **jitterAmplitude** amount of jitter relative to motion range
 * **jitterFrequency** cycles of jitter per second
 * **jitterFade**  time of jitter fade in and out relative to the animation duration
+
+#### random move animation
+
+<img src="https://github.com/texone/monocle/blob/master/animations/04_random_move.gif" width="300" height="300">
+
+Lets the eye move between random positions between 3 and 9 o' clock
+
+* **propability** propability with which the animation is picked 
+* **minCycles** minimum cycles the animation is played back
+* **maxCycles** maximum cycles the animation is played back
+* **moveTime** defines how long an animation moves the eye
+* **breakTime** defines how long the eye is resting
+* **moveTimeRandom** random factor to vary the move time
+* **breakTimeRandom** random factor to vary the break time
 
 
 
