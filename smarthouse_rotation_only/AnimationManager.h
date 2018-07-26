@@ -3,15 +3,25 @@
 
 #include "Animations.h"
 #include "Constants.h"
+#include "Math.h"
+
+enum AnimationMode {
+  PREVIEW,
+  CYCLE,
+  RANDOM
+};
 
 class AnimationManager{
   public:
     long lastMicros;
     double updateTime;
 
-    bool previewAnimation = true;
+    AnimationMode mode = PREVIEW;
 
     AbstractAnimation* animations[7];
+    
+    double propabilitySum = 0;
+    double propabilitySums[7];
 
     BaseStillAnimation baseStill;
     RandomStillAnimation randomStill;
@@ -40,7 +50,15 @@ class AnimationManager{
       //currentAnimation = animations[BASE_STILL];
     }
 
+    void setup(){
+      for(int i = 0; i < 7;i++){
+        propabilitySum += animations[i] -> propability;
+        propabilitySums[i] = propabilitySum;
+      }
+    }
+
     void animation(Animation theAnimation){
+      animationIndex = theAnimation;
       animation(animations[theAnimation]);
     }
 
@@ -58,6 +76,31 @@ class AnimationManager{
       currentAnimation = &transition;
       inTransition = true;
     }
+
+    int counter = 0;
+    int animationIndex = 0;
+
+    AbstractAnimation* getNextAnimation(){
+      switch(mode){
+        case PREVIEW:
+          return nextAnimation;
+        case CYCLE:
+          counter++;
+          counter %= 7;
+          animationIndex = counter;
+          return animations[counter];
+        case RANDOM:
+          double myRandom = dRandom() * propabilitySum;
+          for(int i = 0; i < 7;i++){
+            if(myRandom < propabilitySums[i]){
+              animationIndex = i;
+              return animations[i];
+            }
+          }
+          break;
+      }
+      return nextAnimation;
+    }
   
     void update(){
       unsigned long currentMicros = micros(); // take time snapshot
@@ -73,7 +116,7 @@ class AnimationManager{
           inTransition = false;
           currentAnimation = nextAnimation;
         }else{
-          animation(nextAnimation);
+          animation(getNextAnimation());
         }
       }
     }
