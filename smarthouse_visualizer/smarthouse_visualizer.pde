@@ -10,7 +10,7 @@ void setup()
   for (String portName : Serial.list()) {
     println(portName);
   }
-
+  textFont(loadFont("Monospaced-48.vlw"), 24);
   myPort = new Serial(this, "/dev/cu.usbmodem1411", 115200);
 }
 
@@ -37,6 +37,17 @@ ArrayList<Float> angleBuffer = new ArrayList();
 ArrayList<Float> stepBuffer = new ArrayList();
 float angle = 0;
 
+String myAnimation = "UNDEFINED";
+String[] animationNames = {
+  "BASE_STILL",
+  "RANDOM_STILL",
+  "JITTER_STILL",
+  "RANDOM_MOVE",
+  "JITTER_MOVE",
+  "FULL_ROLL",
+  "RANDOM_ROLL"
+};
+
 void handleInput() {
   while (myPort.available() > 0) {
     String inBuffer = myPort.readString();   
@@ -51,12 +62,15 @@ void handleInput() {
     indexNewLine = readBuffer.indexOf("\n");
     if (indexNewLine <= 0)continue;
     String myDataString = readBuffer.substring(0, indexNewLine);
+    println(myDataString);
     readBuffer.delete(0, indexNewLine + 1);
-
+  
     String[] myData = myDataString.split(",");
     try {
       int mySteps = Integer.parseInt(myData[0]);
       int mySteps2 = Integer.parseInt(myData[1]);
+      int myIndex = Integer.parseInt(myData[2]);
+      
       angle = mySteps / 4000f;
       float angle2 = mySteps2 / 4000f;
       angleBuffer.add(angle);
@@ -67,6 +81,8 @@ void handleInput() {
       while (stepBuffer.size() > width) {
         stepBuffer.remove(0);
       }
+      
+      myAnimation = animationNames[myIndex];
     }
     catch(Exception e) {
     }
@@ -98,10 +114,14 @@ void drawCurves() {
 void draw()
 {
   handleInput();
-
+  
+  background(0);
+  fill(255);
+  
+  text(myAnimation,20,30);
+  
   pushMatrix();
   scale(width, height);
-  background(0);
   fill(255);
   ellipse(0.5, 0.5, 0.9, 0.9);
 
