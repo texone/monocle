@@ -87,7 +87,7 @@ class Setup {
 
       // Setup animation manager
       theAnimationManager->previewAnimation = true;
-      theAnimationManager->transition.moveTime = 1;
+      theAnimationManager->transition.moveTime = 3;
 
       /*
        * Choose one of
