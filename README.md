@@ -202,4 +202,28 @@ Lets the eye jittery move between random positions between 3 and 9 o' clock
 * **jitterFrequency** cycles of jitter per second
 * **jitterFade**  time of jitter fade in and out relative to the animation duration
 
+### full roll animation
+
+<img src="https://github.com/texone/monocle/blob/master/animations/05_full_roll.gif" width="300" height="300">
+
+Lets the eye roll between 3 and 9 o' clock
+
+* **propability** propability with which the animation is picked 
+* **minCycles** minimum cycles the animation is played back
+* **maxCycles** maximum cycles the animation is played back
+* **frequency** cycles of per second
+
+### random roll animation
+
+<img src="https://github.com/texone/monocle/blob/master/animations/06_random_roll.gif" width="300" height="300">
+
+Lets the eye roll between 3 and 9 o' clock
+
+* **propability** propability with which the animation is picked 
+* **minCycles** minimum cycles the animation is played back
+* **maxCycles** maximum cycles the animation is played back
+* **frequency** cycles of per second
+* **minAmplitude** minimum amplitude relative to motion range
+* **maxAmplitude** maximum amplitude relative to motion range
+
 
