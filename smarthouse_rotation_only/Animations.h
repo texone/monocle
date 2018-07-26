@@ -166,6 +166,7 @@ class RandomMoveAnimation : public AbstractAnimation {
       AbstractAnimation::init();
       position0 = dRandomRange();
       position1 = dRandomRange();
+      position = position0;
 
       _moveTime = moveTime + (dRandom() * 2 - 1) * moveTime * moveTimeRandom;
       _breakTime = breakTime + (dRandom() * 2 - 1) * breakTime * breakTimeRandom;
