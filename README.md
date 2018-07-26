@@ -141,5 +141,21 @@ Lets the eye move between random positions between 3 and 9 o' clock
 * **moveTimeRandom** random factor to vary the move time
 * **breakTimeRandom** random factor to vary the break time
 
+#### jitter move animation
+
+<img src="https://github.com/texone/monocle/blob/master/animations/03_jitter_still.gif" width="300" height="300">
+
+Lets the eye jittery move between random positions between 3 and 9 o' clock
+
+* **propability** propability with which the animation is picked 
+* **minCycles** minimum cycles the animation is played back
+* **maxCycles** maximum cycles the animation is played back
+* **moveTime** defines how long an animation moves the eye
+* **breakTime** defines how long the eye is resting
+* **moveTimeRandom** random factor to vary the move time
+* **breakTimeRandom** random factor to vary the break time
+* **jitterAmplitude** amount of jitter relative to motion range
+* **jitterFrequency** cycles of jitter per second
+* **jitterFade**  time of jitter fade in and out relative to the animation duration
 
 
