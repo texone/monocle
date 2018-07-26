@@ -104,9 +104,9 @@ This is a brief description of the individual animations and a list of its param
 
 Lets the eye rest at 6 o'clock position 
 
-*propability
-*minDuration
-*maxDuration
+* propability
+* minDuration
+* maxDuration
 
 
 
