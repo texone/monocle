@@ -100,9 +100,9 @@ This is a brief description of the individual animations and a list of its param
 
 Lets the eye rest at 6 o'clock position 
 
-* propability
-* minDuration
-* maxDuration
+* **propability** propability with which the animation is picked 
+* **minDuration** minimum time the animation is played in seconds
+* **maxDuration** maximum time the animation is played in seconds
 
 #### random still animation
 
@@ -110,22 +110,22 @@ Lets the eye rest at 6 o'clock position
 
 Lets the eye rest at a random position between 3 and 9 o' clock
 
-* propability
-* minDuration
-* maxDuration
+* **propability** propability with which the animation is picked 
+* **minDuration** minimum time the animation is played in seconds
+* **maxDuration** maximum time the animation is played in seconds
 
 #### jitter still animation
 
 <img src="https://github.com/texone/monocle/blob/master/animations/03_jitter_still.gif" width="300" height="300">
 
-Lets the eye rest at a random position between 3 and 9 o' clock
+Lets the eye jitter at a random position between 3 and 9 o' clock
 
-* propability
-* minDuration
-* maxDuration
-* jitterAmplitude
-* jitterFrequency
-* jitterFade
+* **propability** propability with which the animation is picked 
+* **minDuration** minimum time the animation is played in seconds
+* **maxDuration** maximum time the animation is played in seconds
+* **jitterAmplitude** amount of jitter relative to motion range
+* **jitterFrequency** cycles of jitter per second
+* **jitterFade**  time of jitter fade in and out relative to the animation duration
 
 
 
