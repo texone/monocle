@@ -94,6 +94,17 @@ theAnimationManager->fullRoll.minCycles = 3;
 theAnimationManager->fullRoll.maxCycles = 6;
 ```
 
+### animations
+
+This is a brief description of the individual animations and a list of its parameters. 
+
+#### base still animation
+
+Lets the eye rest at 6 o'clock position 
+
+*propability
+*minDuration
+*maxDuration
 
 
 
