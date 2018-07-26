@@ -99,7 +99,7 @@ theAnimationManager->fullRoll.maxCycles = 6;
 This is a brief description of the individual animations and a list of its parameters. 
 
 #### base still animation
-
+![Image of basestill](https://github.com/texone/monocle/blob/master/animations/01_base_still.gif)
 Lets the eye rest at 6 o'clock position 
 
 *propability
