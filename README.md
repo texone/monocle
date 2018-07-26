@@ -1,6 +1,50 @@
 # monocle
 code and documentation for the monocle project
 
+## install and run the arduino program
+
+To use the program you need the arduino [ide](https://www.arduino.cc/en/Main/Software) and an arduino. You can directly download the complete project from github [here](https://github.com/texone/monocle/archive/master.zip).
+
+For help to get started look [here](https://www.arduino.cc/en/Guide/HomePage) for the software and [here](https://www.arduino.cc/en/Guide/ArduinoUno) how to connect the arduino.
+
+To start the program load the smarthouse_rotation_only project located in the downloaded folder into the arduino ide using file -> open. Look into the [setup.h](https://github.com/texone/monocle/blob/master/smarthouse_rotation_only/Setup.h) tab and locate the lines
+```
+com->debug = true;
+motor->homing = false;
+```
+Make sure debug is true and homing false for simulation, debug is false and homing true to run the installation.
+
+now upload the program to the arduino with the upload button at the top.
+
+## install and run the visualizer
+
+The visualizer is a processing application to start it you need processing which you can download [here](https://processing.org/download/). For more information on the processing ide check [here](https://processing.org/reference/environment/).
+
+Once you have processing installed open the visualizer project located in github download inside the smarthouse_visualizer folder using file -> open. Start the application using the start button at the top of the ide. To let the visualizer comunicate with the arduino you need to open the right serial port. At start the visualizer prints out the port available in the console like this
+```
+/dev/tty.Bluetooth-Incoming-Port
+/dev/tty.MacBookPro2-Bluetooth-I
+/dev/tty.usbmodem1411
+```
+In this case /dev/tty.usbmodem1411 would be the correct device. Locate the line
+```
+myPort = new Serial(this, "/dev/cu.usbmodem1411", 115200);
+```
+in the code replace /dev/cu.usbmodem1411 with your correct portname. Now the application should be able to connect to the arduino.
+
+If the arduino runs in debug mode it sends the target position of the animation manager and the real position of the motor over the serial port.
+
+<img src="https://github.com/texone/monocle/blob/master/animations/visualizer.png">
+
+As you can see in the screenshot the visualizer translate the motordata send over the serial output into a simulation of the eye. This allows to tweak the animation parameters of the arduino code without the installation. In the screenshot you can also see a red and a green curve. The red curve shows the target position of the animation the green curve shows the current position of the motor. You need to setup the parameters so that the two curve are on top of each other otherwise the animation runs to fast and the motor can not follow.
+
+Be aware that you have to stop the visualizer if you want to upload the arduino code because it block the serial port that is needed to upload the program to the arduino.
+
+There are three keyshots to control the software
+* **D** shows and hides the curves
+* **S** starts and ends screencapture
+* **F** exports the current frame
+
 ## summary of the motion limits
 
 ### Rotation
