@@ -108,5 +108,15 @@ Lets the eye rest at 6 o'clock position
 * minDuration
 * maxDuration
 
+#### base still animation
+
+<img src="https://github.com/texone/monocle/blob/master/animations/02_random_still.gif" width="300" height="300">
+
+Lets the eye rest at a random position between 3 and 9 o' clock
+
+* propability
+* minDuration
+* maxDuration
+
 
 
