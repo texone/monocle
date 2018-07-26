@@ -90,11 +90,11 @@ theAnimationManager->jitterStill.jitterFrequency = 0.5;
 theAnimationManager->jitterStill.jitterFade = 0.1;
 ```
 
-### animations
+## animations
 
 This is a brief description of the individual animations and a list of its parameters. 
 
-#### base still animation
+### base still animation
 
 <img src="https://github.com/texone/monocle/blob/master/animations/01_base_still.gif" width="300" height="300">
 
@@ -104,7 +104,7 @@ Lets the eye rest at 6 o'clock position
 * **minDuration** minimum time the animation is played in seconds
 * **maxDuration** maximum time the animation is played in seconds
 
-#### random still animation
+### random still animation
 
 <img src="https://github.com/texone/monocle/blob/master/animations/02_random_still.gif" width="300" height="300">
 
@@ -114,7 +114,7 @@ Lets the eye rest at a random position between 3 and 9 o' clock
 * **minDuration** minimum time the animation is played in seconds
 * **maxDuration** maximum time the animation is played in seconds
 
-#### jitter still animation
+### jitter still animation
 
 <img src="https://github.com/texone/monocle/blob/master/animations/03_jitter_still.gif" width="300" height="300">
 
@@ -127,7 +127,7 @@ Lets the eye jitter at a random position between 3 and 9 o' clock
 * **jitterFrequency** cycles of jitter per second
 * **jitterFade**  time of jitter fade in and out relative to the animation duration
 
-#### random move animation
+### random move animation
 
 <img src="https://github.com/texone/monocle/blob/master/animations/04_random_move.gif" width="300" height="300">
 
@@ -141,7 +141,7 @@ Lets the eye move between random positions between 3 and 9 o' clock
 * **moveTimeRandom** random factor to vary the move time
 * **breakTimeRandom** random factor to vary the break time
 
-#### jitter move animation
+### jitter move animation
 
 <img src="https://github.com/texone/monocle/blob/master/animations/03_jitter_still.gif" width="300" height="300">
 
