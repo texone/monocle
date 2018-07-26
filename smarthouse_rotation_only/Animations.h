@@ -236,7 +236,7 @@ class FullRollAnimation : public AbstractAnimation {
 
     void init() {
       AbstractAnimation::init();
-      cycles = random(3, 6);
+      cycles = random(minCycles, maxCycles);
     }
 
     virtual double value() {

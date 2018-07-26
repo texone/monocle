@@ -9,6 +9,7 @@
 #include "AnimationManager.h"
 #include "Comunication.h"
 #include "Constants.h"
+#include "Motor.h"
 
 /**
  * animation class
@@ -21,15 +22,15 @@ class Comunication{
     void setup(){
       if(!debug)return;
       
-      Serial.begin(9600);
+      Serial.begin(115200);
     }
 
-    void print(AnimationManager theManager){
+    void print(AnimationManager theManager, Motor* motor){
       if(!debug)return;
       
       Serial.print(theManager.steps());
       Serial.print(",");
-      Serial.print(theManager.value());
+      Serial.print(motor->currentStep);
       Serial.print(",");
       Serial.print(theManager.lastMicros);
       Serial.print(",");

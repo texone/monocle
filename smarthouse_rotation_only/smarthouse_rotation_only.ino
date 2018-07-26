@@ -17,22 +17,28 @@ Comunication com;
 AnimationManager animationManager;
 Setup valueSetup;
 
+long loopCount = 0;
+
 void setup() {
   // set the digital pin as output:
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);
 
-  valueSetup.setValues(&animationManager, &com);
 
-  motor.setup();
   com.setup();
+
+  valueSetup.setValues(&animationManager, &com, &motor);
+  
+  motor.setup();
 }
 
 
 
 void loop() {
   animationManager.update();
-  com.print(animationManager);
-
+  motor.target(animationManager.steps());
+  motor.move();
+  loopCount++;
+  if(loopCount % 100 == 0)com.print(animationManager, &motor);
   //Serial.println("texone");
 }

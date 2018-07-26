@@ -37,13 +37,7 @@ class AnimationManager{
       animations[FULL_ROLL] = &fullRoll;
       animations[RANDOM_ROLL] = &randomRoll;
 
-      currentAnimation = animations[BASE_STILL];
-      animation(BASE_STILL);
-    }
-
-    void init(){
-      transition.position0 = 0;
-      
+      //currentAnimation = animations[BASE_STILL];
     }
 
     void animation(Animation theAnimation){
@@ -52,8 +46,11 @@ class AnimationManager{
 
     void animation(AbstractAnimation *theAnimation){
       nextAnimation = theAnimation;
-      
-      transition.position0 = currentAnimation->value();
+      if(currentAnimation){
+        transition.position0 = currentAnimation->value();
+      }else{
+        transition.position0 = 1;
+      }
       nextAnimation->init();
       transition.position1 = nextAnimation->value();
       transition.init();
