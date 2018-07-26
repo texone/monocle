@@ -41,9 +41,9 @@ class Setup {
       theAnimationManager->jitterStill.minDuration = 10;
       theAnimationManager->jitterStill.maxDuration = 20;
 
-      theAnimationManager->jitterStill.jitterAmplitude = 0.1; // jitter amount relative 
-      theAnimationManager->jitterStill.jitterFrequency = 0.5;   // movements per second
-      theAnimationManager->jitterStill.jitterFade = 0.25;      // range 0.1 to 0.5 
+      theAnimationManager->jitterStill.jitterAmplitude = 0.1;   // jitter amount relative 
+      theAnimationManager->jitterStill.jitterFrequency = 0.5;     // movements per second
+      theAnimationManager->jitterStill.jitterFade = 0.1;        // range 0.1 to 0.5 
 
       // Setup RANDOM_MOVE animation
 
@@ -99,7 +99,7 @@ class Setup {
        * FULL_ROLL,
        * RANDOM_ROLL
        */
-      theAnimationManager->animation(RANDOM_STILL);
+      theAnimationManager->animation(JITTER_STILL);
     }
 };
 
