@@ -21,40 +21,40 @@ class Setup {
       //motor->homing = true;
 
       // Setup propabilities
-      theAnimationManager->baseStill.propability    = 0.1;
-      theAnimationManager->randomStill.propability  = 0.1;
-      theAnimationManager->jitterStill.propability  = 0.1;
-      theAnimationManager->randomMove.propability   = 0.1;
-      theAnimationManager->jitterMove.propability   = 0.1;
-      theAnimationManager->fullRoll.propability     = 0.1;
-      theAnimationManager->randomRoll.propability   = 0.1;
+      theAnimationManager->baseStill.propability    = 0.1;  // any value bigger than 0
+      theAnimationManager->randomStill.propability  = 0.1;  // any value bigger than 0
+      theAnimationManager->jitterStill.propability  = 0.1;  // any value bigger than 0
+      theAnimationManager->randomMove.propability   = 0.1;  // any value bigger than 0
+      theAnimationManager->jitterMove.propability   = 0.1;  // any value bigger than 0
+      theAnimationManager->fullRoll.propability     = 0.1;  // any value bigger than 0
+      theAnimationManager->randomRoll.propability   = 0.1;  // any value bigger than 0
        
       // Setup BASE_STILL animation
-      theAnimationManager->baseStill.minDuration = 3;
-      theAnimationManager->baseStill.maxDuration = 6;
+      theAnimationManager->baseStill.minDuration = 3;       // any value bigger than 0
+      theAnimationManager->baseStill.maxDuration = 6;       // any value bigger than 0
 
       // Setup RANDOM_STILL animation
-      theAnimationManager->randomStill.minDuration = 3;
-      theAnimationManager->randomStill.maxDuration = 6;
+      theAnimationManager->randomStill.minDuration = 3;     // any value bigger than 0
+      theAnimationManager->randomStill.maxDuration = 6;     // any value bigger than 0
 
       // Setup JITTER_STILL animation
-      theAnimationManager->jitterStill.minDuration = 10;
-      theAnimationManager->jitterStill.maxDuration = 20;
+      theAnimationManager->jitterStill.minDuration = 10;    // any value bigger than 0
+      theAnimationManager->jitterStill.maxDuration = 20;    // any value bigger than 0
 
-      theAnimationManager->jitterStill.jitterAmplitude = 0.1;   // jitter amount relative 
-      theAnimationManager->jitterStill.jitterFrequency = 0.5;     // movements per second
-      theAnimationManager->jitterStill.jitterFade = 0.1;        // range 0.1 to 0.5 
+      theAnimationManager->jitterStill.jitterAmplitude = 0.1;  // jitter amount relative range 0 to 0.25
+      theAnimationManager->jitterStill.jitterFrequency = 0.5;  // movements per second max dependent on amp
+      theAnimationManager->jitterStill.jitterFade = 0.1;       // range 0.1 to 0.5 
 
       // Setup RANDOM_MOVE animation
 
-      theAnimationManager->randomMove.minCycles = 4;
-      theAnimationManager->randomMove.maxCycles = 4;
+      theAnimationManager->randomMove.minCycles = 4;          // any value bigger than 0
+      theAnimationManager->randomMove.maxCycles = 4;          // any value bigger than 0
 
-      theAnimationManager->randomMove.moveTime = 1;
-      theAnimationManager->randomMove.breakTime = 1;
+      theAnimationManager->randomMove.moveTime = 3;           // value bigger than 3
+      theAnimationManager->randomMove.breakTime = 1;        // any value
       
-      theAnimationManager->randomMove.moveTimeRandom = 0.;
-      theAnimationManager->randomMove.breakTimeRandom = 0.;
+      theAnimationManager->randomMove.moveTimeRandom = 0.2;   // range 0. to 0.5 dependent on moveTime
+      theAnimationManager->randomMove.breakTimeRandom = 0.2;  // range 0. to 1. 
 
       //Setup JITTER_MOVE animation
 
@@ -99,7 +99,7 @@ class Setup {
        * FULL_ROLL,
        * RANDOM_ROLL
        */
-      theAnimationManager->animation(JITTER_STILL);
+      theAnimationManager->animation(RANDOM_MOVE);
     }
 };
 
