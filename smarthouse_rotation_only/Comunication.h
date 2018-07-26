@@ -32,7 +32,7 @@ class Comunication{
       Serial.print(",");
       Serial.print(motor->currentStep);
       Serial.print(",");
-      Serial.print(theManager.lastMicros);
+      Serial.print(theManager.animationIndex);
       Serial.print(",");
       Serial.print(theManager.updateTime);
       Serial.print(",");

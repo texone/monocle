@@ -16,9 +16,21 @@ class Setup {
        */
       com->debug = true;
       motor->homing = false;
+      /*
+       * Choose one of
+       * PREVIEW, 
+       * CYCLE, 
+       * RANDOM
+       */
+      theAnimationManager->mode = RANDOM;
 
+      // settings for installation uncomment to run 
       //com->debug = false;
       //motor->homing = true;
+      //theAnimationManager->mode = RANDOM;
+
+      // Setup animation manager transition speed
+      theAnimationManager->transition.moveTime = 3;
 
       // Setup propabilities
       theAnimationManager->baseStill.propability    = 0.1;  // any value bigger than 0
@@ -77,17 +89,13 @@ class Setup {
       theAnimationManager->fullRoll.maxCycles = 6;
 
       // Setup RANDOM_ROLL animation
-      theAnimationManager->randomRoll.frequency = 0.5;
+      theAnimationManager->randomRoll.frequency = 0.25;
 
       theAnimationManager->randomRoll.minCycles = 3;
       theAnimationManager->randomRoll.maxCycles = 6;
 
       theAnimationManager->randomRoll.minAmplitude = 0.1;
       theAnimationManager->randomRoll.maxAmplitude = 0.2;
-
-      // Setup animation manager
-      theAnimationManager->previewAnimation = true;
-      theAnimationManager->transition.moveTime = 3;
 
       /*
        * Choose one of
@@ -99,7 +107,7 @@ class Setup {
        * FULL_ROLL,
        * RANDOM_ROLL
        */
-      theAnimationManager->animation(JITTER_MOVE);
+      theAnimationManager->animation(BASE_STILL);
     }
 };
 

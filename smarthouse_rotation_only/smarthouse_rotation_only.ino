@@ -24,11 +24,11 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);
 
-
   com.setup();
 
   valueSetup.setValues(&animationManager, &com, &motor);
   
+  animationManager.setup();
   motor.setup();
 }
 

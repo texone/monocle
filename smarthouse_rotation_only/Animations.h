@@ -1,17 +1,10 @@
 
-#include "Constants.h"
 
 #ifndef __Animations__
 #define __Animations__
 
-double saturate(double val){
-  return max(0,min(val, 1));
-}
-
-double smoothStep(double edge0, double edge1, double x) {
-    double t = saturate((x - edge0) / (edge1 - edge0));
-    return t * t * (3.0 - 2.0 * t);
-}
+#include "Constants.h"
+#include "Math.h"
 
 enum Animation {
   BASE_STILL,
@@ -51,9 +44,7 @@ class AbstractAnimation {
       return random(-_range, _range) / 100000. ;
     }
 
-    double dRandom() {
-      return random(0, 100000) / 100000. ;
-    }
+  
 
     virtual void init() {
       time = 0;
