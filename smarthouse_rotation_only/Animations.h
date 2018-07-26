@@ -216,11 +216,19 @@ class JitterMoveAnimation : public RandomMoveAnimation {
 
     void update(double theDeltaTime) {
       RandomMoveAnimation::update(theDeltaTime);
+      
       jitterTime += theDeltaTime;
+      
     }
 
     virtual double value() {
-      return position + cos(jitterTime * TWO_PI * jitterFrequency) * jitterAmplitude;
+      double timeBlend = time / (_moveTime + _breakTime);
+      double blend = min(
+        cycle == 0 ? smoothStep(0,jitterFade,timeBlend) : 1,
+        cycle == cycles ? 1 /*smoothStep(1,1 - jitterFade,timeBlend)*/ : 1
+      );
+    
+      return position + cos(jitterTime * TWO_PI * jitterFrequency) * jitterAmplitude * blend;
     }
 };
 

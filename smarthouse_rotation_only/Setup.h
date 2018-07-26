@@ -58,18 +58,18 @@ class Setup {
 
       //Setup JITTER_MOVE animation
 
-      theAnimationManager->jitterMove.minCycles = 3;
-      theAnimationManager->jitterMove.maxCycles = 6;
+      theAnimationManager->jitterMove.minCycles = 4;
+      theAnimationManager->jitterMove.maxCycles = 4;
 
       theAnimationManager->jitterMove.jitterAmplitude = 0.1;
       theAnimationManager->jitterMove.jitterFade = 0.5;
-      theAnimationManager->jitterMove.jitterFrequency = 2;
+      theAnimationManager->jitterMove.jitterFrequency = 0.5;
 
       theAnimationManager->jitterMove.moveTime = 5;
-      theAnimationManager->jitterMove.moveTimeRandom = 0.8;
+      theAnimationManager->jitterMove.moveTimeRandom = 0.2;
 
-      theAnimationManager->jitterMove.breakTime = 5;
-      theAnimationManager->jitterMove.breakTimeRandom = 0.8;
+      theAnimationManager->jitterMove.breakTime = 1;
+      theAnimationManager->jitterMove.breakTimeRandom = 0.2;
 
       // Setup FULL_ROLL animation
       theAnimationManager->fullRoll.frequency = 0.1;            // max value 0.1
@@ -99,7 +99,7 @@ class Setup {
        * FULL_ROLL,
        * RANDOM_ROLL
        */
-      theAnimationManager->animation(RANDOM_MOVE);
+      theAnimationManager->animation(JITTER_MOVE);
     }
 };
 
