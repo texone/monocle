@@ -3,21 +3,9 @@ code and documentation for the monocle project
 
 ## summary of the motion limits
 
-### a axis Rotation
+### Rotation
 
-40:1 gearing
-3200 pulses / revolution
-
-maximum velocity 220 RPM
-maximum acceleration 200 RPM
-
-#### z axis Linear
-
-50mm / revolution
-3200 pulses / revolution
-
-maximum velocity 1000 mm / s
-maximum acceleration 4000 mm / s2
+4000 pulses from center to outer range
 
 ## animation setup
 
@@ -93,6 +81,14 @@ theAnimationManager->fullRoll.frequency = 0.1;
 theAnimationManager->fullRoll.minCycles = 3;
 theAnimationManager->fullRoll.maxCycles = 6;
 ```
+### jitter
+
+The two jitter animations share three parameters jitter amplitude, frequency and fade. Amplitude is the amount of jitter relative to the motion range, so an amplitude of 0.1 means the jitter is 10% of the motion range. Frequncy controls the speed of jitter a frequency of 1 lets the eye move one cycle per second. The fade value controls the fade in and out of the jitter relative to the animation duration so if the duration is 10 sec a fade value of 0.1 will cause a fade in and out of 1 sec. Example jitter settings.
+```
+theAnimationManager->jitterStill.jitterAmplitude = 0.1;
+theAnimationManager->jitterStill.jitterFrequency = 0.5;
+theAnimationManager->jitterStill.jitterFade = 0.1;
+```
 
 ### animations
 
@@ -108,7 +104,7 @@ Lets the eye rest at 6 o'clock position
 * minDuration
 * maxDuration
 
-#### base still animation
+#### random still animation
 
 <img src="https://github.com/texone/monocle/blob/master/animations/02_random_still.gif" width="300" height="300">
 
