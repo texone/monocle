@@ -13,7 +13,7 @@ enum AnimationMode {
 
 class AnimationManager{
   public:
-    long lastMicros;
+    long lastMicros = -1;
     double updateTime;
 
     AnimationMode mode = PREVIEW;
@@ -103,6 +103,10 @@ class AnimationManager{
     }
   
     void update(){
+      if(lastMicros <= 0){
+        lastMicros = micros();
+      }
+      
       unsigned long currentMicros = micros(); // take time snapshot
       unsigned long passedTime = currentMicros - lastMicros;
       updateTime = double(passedTime) / 1000000.;

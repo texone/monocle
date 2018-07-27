@@ -29,9 +29,8 @@ class Motor {
       pinMode(homePin, INPUT_PULLUP); // connect: Arduino pin6 & GND
 
       homeCycle();
-
-      currentStep = MAX_STEPS;
     }
+    long targetStep;
 
     void homeCycle() {
       //enable the motor to be ready after homing
@@ -40,36 +39,45 @@ class Motor {
       //while(!digitalRead(homePin)) {
       while (digitalRead(homePin) == !LOW && homing) {
         //wait for the home signal to activate, (motor; All-Systems-Go actually)
+        Serial.println("HOMING");
         delay(20);
       }
 
-      currentStep = 4000;
+      //set initial direction for when we are ready to move
+      digitalWrite(dirPin,HIGH);//CCW direction looking from the front      
+      //delay(2000);//delay before starting
+
+      currentStep = MAX_STEPS;
+      /*
+      for(int N=currentStep;N >= targetStep; N++){
+        digitalWrite(stepPin,!digitalRead(stepPin));
+        delay(3);
+      }
+      currentStep = targetStep;*/
     }
 
-    long targetStep;
 
     void target(long theStep) {
       targetStep = theStep;
     }
 
     unsigned long previousTime = 0;  // will store last time motor1 was updated
-    const float nA = 100;            // Top speed motor 1 -MicroS between pulses
 
     void move() {
       unsigned long currentMillis = micros(); // take time snapshot
 
-      if (currentMillis - previousTime >= nA) {
+      if (currentMillis - previousTime >= MIN_STEP_TIME) {
         previousTime = currentMillis;
 
         long myStepDif = targetStep - currentStep;
 
         if (myStepDif != 0) {
-          dirState = myStepDif > 0;
+          dirState = myStepDif < 0;
           stepState = !stepState; //  now flip the state of step output = take a step
           if (dirState) {
-            currentStep++;
-          } else {
             currentStep--;
+          } else {
+            currentStep++;
           }
         }
         /*

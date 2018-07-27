@@ -96,6 +96,7 @@ class RandomStillAnimation : public BaseStillAnimation {
 
     void init() {
       BaseStillAnimation::init();
+      range(0.9);
       position = dRandomRange();
     }
 
@@ -155,6 +156,7 @@ class RandomMoveAnimation : public AbstractAnimation {
 
     void init() {
       AbstractAnimation::init();
+      range(0.9);
       position0 = dRandomRange();
       position1 = dRandomRange();
       position = position0;
@@ -201,7 +203,7 @@ class JitterMoveAnimation : public RandomMoveAnimation {
     double jitterTime = 0;
 
     void init() {
-      AbstractAnimation::range(1. - jitterAmplitude);
+      AbstractAnimation::range(0.9 - jitterAmplitude);
       RandomMoveAnimation::init();
     }
 
@@ -240,7 +242,7 @@ class FullRollAnimation : public AbstractAnimation {
     }
 
     virtual double value() {
-      return cos(time * TWO_PI * frequency);
+      return cos(time * TWO_PI * frequency)* 0.9;
     }
 
     virtual bool isFinished() {

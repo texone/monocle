@@ -14,23 +14,23 @@ class Setup {
       /*
        * make sure debug is false before running on motor this is only for simulation mode
        */
-      com->debug = true;
-      motor->homing = false;
+      //com->debug = true;
+      //motor->homing = false;
       /*
        * Choose one of
        * PREVIEW, 
        * CYCLE, 
        * RANDOM
        */
-      theAnimationManager->mode = RANDOM;
+      theAnimationManager->mode = CYCLE;
 
       // settings for installation uncomment to run 
-      //com->debug = false;
-      //motor->homing = true;
+     com->debug = true;
+      motor->homing = true;
       //theAnimationManager->mode = RANDOM;
 
       // Setup animation manager transition speed
-      theAnimationManager->transition.moveTime = 3;
+      theAnimationManager->transition.moveTime = 10;
 
       // Setup propabilities
       theAnimationManager->baseStill.propability    = 0.1;  // any value bigger than 0
@@ -54,16 +54,16 @@ class Setup {
       theAnimationManager->jitterStill.maxDuration = 20;    // any value bigger than 0
 
       theAnimationManager->jitterStill.jitterAmplitude = 0.1;  // jitter amount relative range 0 to 0.25
-      theAnimationManager->jitterStill.jitterFrequency = 0.5;  // movements per second max dependent on amp
-      theAnimationManager->jitterStill.jitterFade = 0.1;       // range 0.1 to 0.5 
+      theAnimationManager->jitterStill.jitterFrequency = 0.25;  // movements per second max dependent on amp
+      theAnimationManager->jitterStill.jitterFade = 0.2;       // range 0.1 to 0.5 
 
       // Setup RANDOM_MOVE animation
 
       theAnimationManager->randomMove.minCycles = 4;          // any value bigger than 0
       theAnimationManager->randomMove.maxCycles = 4;          // any value bigger than 0
 
-      theAnimationManager->randomMove.moveTime = 3;           // value bigger than 3
-      theAnimationManager->randomMove.breakTime = 1;        // any value
+      theAnimationManager->randomMove.moveTime = 10;           // value bigger than 3
+      theAnimationManager->randomMove.breakTime = 5;        // any value
       
       theAnimationManager->randomMove.moveTimeRandom = 0.2;   // range 0. to 0.5 dependent on moveTime
       theAnimationManager->randomMove.breakTimeRandom = 0.2;  // range 0. to 1. 
@@ -74,13 +74,13 @@ class Setup {
       theAnimationManager->jitterMove.maxCycles = 4;
 
       theAnimationManager->jitterMove.jitterAmplitude = 0.1;
-      theAnimationManager->jitterMove.jitterFade = 0.5;
-      theAnimationManager->jitterMove.jitterFrequency = 0.5;
+      theAnimationManager->jitterMove.jitterFade = 0.2;
+      theAnimationManager->jitterMove.jitterFrequency = 0.25;
 
-      theAnimationManager->jitterMove.moveTime = 5;
+      theAnimationManager->jitterMove.moveTime = 10;
       theAnimationManager->jitterMove.moveTimeRandom = 0.2;
 
-      theAnimationManager->jitterMove.breakTime = 1;
+      theAnimationManager->jitterMove.breakTime = 5;
       theAnimationManager->jitterMove.breakTimeRandom = 0.2;
 
       // Setup FULL_ROLL animation
@@ -89,13 +89,13 @@ class Setup {
       theAnimationManager->fullRoll.maxCycles = 6;
 
       // Setup RANDOM_ROLL animation
-      theAnimationManager->randomRoll.frequency = 0.25;
+      theAnimationManager->randomRoll.frequency = 0.1;
 
       theAnimationManager->randomRoll.minCycles = 3;
       theAnimationManager->randomRoll.maxCycles = 6;
 
-      theAnimationManager->randomRoll.minAmplitude = 0.1;
-      theAnimationManager->randomRoll.maxAmplitude = 0.2;
+      theAnimationManager->randomRoll.minAmplitude = 0.25;
+      theAnimationManager->randomRoll.maxAmplitude = 0.5;
 
       /*
        * Choose one of
