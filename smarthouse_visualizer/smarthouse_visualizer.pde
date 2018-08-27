@@ -37,7 +37,7 @@ ArrayList<Float> angleBuffer = new ArrayList();
 ArrayList<Float> stepBuffer = new ArrayList();
 float angle = 0;
 
-String myAnimation = "UNDEFINED";
+String myAnimation = "HOMING";
 String[] animationNames = {
   "BASE_STILL",
   "RANDOM_STILL",
