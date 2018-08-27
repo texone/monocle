@@ -19,7 +19,7 @@ Setup valueSetup;
 
 long loopCount = 0;
 
-void setup() {
+void setup() { 
   // set the digital pin as output:
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);

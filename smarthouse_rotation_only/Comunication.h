@@ -17,7 +17,7 @@
 class Comunication{
   public: 
 
-    bool debug = true;
+    bool debug = true; 
     
     void setup(){
       if(!debug)return;

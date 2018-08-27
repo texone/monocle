@@ -44,6 +44,9 @@ class AbstractAnimation {
       return random(-_range, _range) / 100000. ;
     }
 
+    double dRandom(){
+      return random(0, 100000) / 100000. ;
+    }
   
 
     virtual void init() {
@@ -141,13 +144,13 @@ class RandomMoveAnimation : public AbstractAnimation {
     double position1 = 0;
     double position = 0;
 
-    double moveTime = 1;
-    double moveTimeRandom = 0;
+    double speed = 0.5;
     double _moveTime = 1;
 
     double breakTime = 1;
     double breakTimeRandom = 0;
     double _breakTime = 1;
+    double delta = 0;
 
     int minCycles = 3;
     int maxCycles = 6;
@@ -161,7 +164,8 @@ class RandomMoveAnimation : public AbstractAnimation {
       position1 = dRandomRange();
       position = position0;
 
-      _moveTime = moveTime + (dRandom() * 2 - 1) * moveTime * moveTimeRandom;
+      delta = position1 - position0;
+      _moveTime = max(abs(delta) / speed, 0.2);
       _breakTime = breakTime + (dRandom() * 2 - 1) * breakTime * breakTimeRandom;
       cycles = random(3, 6);
       cycle = 0;
@@ -171,7 +175,6 @@ class RandomMoveAnimation : public AbstractAnimation {
       AbstractAnimation::update(theDeltaTime);
 
       if (time < _moveTime) {
-        double delta = position1 - position0;
         position = position0 + delta * smoothStep(0, 1, time / _moveTime);
       }
       if (time > _moveTime + _breakTime) {
@@ -179,6 +182,8 @@ class RandomMoveAnimation : public AbstractAnimation {
         cycle++;
         position0 = position1;
         position1 = dRandomRange();
+        delta = position1 - position0;
+        _breakTime = breakTime + (dRandom() * 2 - 1) * breakTime * breakTimeRandom;
       }
     }
 
@@ -242,7 +247,7 @@ class FullRollAnimation : public AbstractAnimation {
     }
 
     virtual double value() {
-      return cos(time * TWO_PI * frequency)* 0.9;
+      return cos(time * TWO_PI * frequency) * 0.9;
     }
 
     virtual bool isFinished() {
@@ -255,19 +260,56 @@ class FullRollAnimation : public AbstractAnimation {
 */
 class RandomRollAnimation : public FullRollAnimation {
   public:
-    double maxAmplitude = 0.2;
-    double minAmplitude = 0.2;
-    double amplitude = 0.2;
+    double position0 = 0;
+    double position1 = 0;
+    double position = 0;
 
+    double speed = 0.5;
+    double _moveTime = 1;
+
+    double delta = 0;
+
+    int minCycles = 3;
+    int maxCycles = 6;
+    int cycles = 3;
+    int cycle = 0;
+
+    double minAmp = 0.25;
+    
     void init() {
-      FullRollAnimation::init();
-      amplitude = minAmplitude + dRandom() * (maxAmplitude - minAmplitude);
-      AbstractAnimation::range(1. - amplitude);
-      position = dRandomRange();
+      AbstractAnimation::init();
+      position0 = minAmp + dRandom() * (1 - minAmp);
+      position1 = -minAmp - dRandom() * (1 - minAmp);
+      position = position0;
+
+      delta = position1 - position0;
+      _moveTime = max(abs(delta) / speed, 0.2);
+      cycles = random(3, 6);
+      cycle = 0; 
+    }
+
+    void update(double theDeltaTime) {
+      AbstractAnimation::update(theDeltaTime);
+
+      if (time < _moveTime) {
+        position = position0 + delta * (cos(time / _moveTime * PI + PI) + 1) / 2;
+      }
+      if (time >= _moveTime) {
+        time = 0;
+        cycle++;
+        position0 = position1;
+        position1 = minAmp + dRandom() * (1 - minAmp);
+        if(cycle % 2 == 0)position1 = -position1;
+        delta = position1 - position0;
+      }
     }
 
     virtual double value() {
-      return position + cos(time * TWO_PI * frequency) * amplitude;
+      return position * 0.9;
+    }
+
+    virtual bool isFinished() {
+      return cycle > cycles;
     }
 };
 
@@ -280,7 +322,8 @@ class TransitionAnimation : public AbstractAnimation {
     double position1 = 0;
     double position = 0;
 
-    double moveTime = 5;
+    double moveTime = 20;
+    double speed = 0.5;
 
     void init() {
       AbstractAnimation::init();
@@ -288,9 +331,11 @@ class TransitionAnimation : public AbstractAnimation {
 
     void update(double theDeltaTime) {
       AbstractAnimation::update(theDeltaTime);
-
+      double delta = position1 - position0;
+      moveTime = max(abs(delta) / speed, 1.0);
+     // Serial.println(delta);
+      
       if (time < moveTime) {
-        double delta = position1 - position0;
         position = position0 + delta * smoothStep(0, 1, time / moveTime);
       }
     }

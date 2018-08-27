@@ -30,7 +30,6 @@ class Motor {
 
       homeCycle();
     }
-    long targetStep;
 
     void homeCycle() {
       //enable the motor to be ready after homing
@@ -39,23 +38,13 @@ class Motor {
       //while(!digitalRead(homePin)) {
       while (digitalRead(homePin) == !LOW && homing) {
         //wait for the home signal to activate, (motor; All-Systems-Go actually)
-        Serial.println("HOMING");
         delay(20);
       }
 
-      //set initial direction for when we are ready to move
-      digitalWrite(dirPin,HIGH);//CCW direction looking from the front      
-      //delay(2000);//delay before starting
-
       currentStep = MAX_STEPS;
-      /*
-      for(int N=currentStep;N >= targetStep; N++){
-        digitalWrite(stepPin,!digitalRead(stepPin));
-        delay(3);
-      }
-      currentStep = targetStep;*/
     }
 
+    long targetStep;
 
     void target(long theStep) {
       targetStep = theStep;

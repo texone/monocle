@@ -18,8 +18,8 @@ const int HOME = 8;
 // change this value to slow things down or speed them up
 const double PERIOD_MICROS = 6. * 1000. * 1000.;
 
-const long MIN_STEP_TIME = 100;
 const long MAX_STEPS = 3850;             // 126800
+const long MIN_STEP_TIME = 100;            // Top speed motor 1 -MicroS between pulses
 
 const double MAX_ANGLE = radians(175.0 / 2.);
 const double MAX_ANGLE_STEPS = MAX_STEPS;

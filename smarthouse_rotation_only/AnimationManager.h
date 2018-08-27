@@ -55,7 +55,7 @@ class AnimationManager{
         propabilitySum += animations[i] -> propability;
         propabilitySums[i] = propabilitySum;
       }
-    }
+    } 
 
     void animation(Animation theAnimation){
       animationIndex = theAnimation;
