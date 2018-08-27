@@ -113,26 +113,25 @@ theAnimationManager->baseStill.maxDuration = 10;
 ```
 #### timing for move animations
 
-Move animations have a move time value and a break time value the move time defines how long an animation moves the eye, the break time defines how long the eye is resting. With the min and max cycle value you can define how many movements the animation is playing until it is finished. So if you want the random move animation to move for 5 seconds and than rest for 5 seconds you would use the following setup. As you can see the animation does between 3 and 6 cycles meaning it moves to 3 to 6 random positions.
+Move animations have a speed value and a break time value the speed value defines how fast the eye can move, the break time defines how long the eye is resting. With the min and max cycle value you can define how many movements the animation is playing until it is finished. So if you want the random move animation to move and than rest for 5 seconds you would use the following setup. As you can see the animation does between 3 and 6 cycles meaning it moves to 3 to 6 random positions. You have to ensure the speed is not to high.
 ```
 theAnimationManager->randomMove.minCycles = 3;
 theAnimationManager->randomMove.maxCycles = 6;
 
-theAnimationManager->randomMove.moveTime = 5;
+theAnimationManager->randomMove.speed = 0.2;
 theAnimationManager->randomMove.breakTime = 5;
 ```
-It is also possible to vary the move and brake time using random factors. The random factor can range from 0 to 1 0 means no random 1 means that the actual value is between 0 and double the time. For the move time you need to ensure that there is enough time for the motor to move so a random factor of 1 should not be used as the motor can not move in zero time. Here is a setting icluding random factors.
+It is also possible to vary the brake time using a random factor. The random factor can range from 0 to 1 0 means no random 1 means that the actual value is between 0 and double the time. Here is a setting icluding random factors.
 ```
 theAnimationManager->randomMove.minCycles = 3;
 theAnimationManager->randomMove.maxCycles = 6;
 
-theAnimationManager->randomMove.moveTime = 5;
+theAnimationManager->randomMove.speed = 0.2;
 theAnimationManager->randomMove.breakTime = 5;
       
-theAnimationManager->randomMove.moveTimeRandom = 0.2;
 theAnimationManager->randomMove.breakTimeRandom = 0.8;
 ```
-With this values the move time will range from 4 to 6 the breaktime from 1 to 9 seconds.
+With this values the breaktime from 1 to 9 seconds.
 
 #### timing for roll animations
 
@@ -197,9 +196,8 @@ Lets the eye move between random positions between 3 and 9 o' clock
 * **propability** propability with which the animation is picked 
 * **minCycles** minimum cycles the animation is played back
 * **maxCycles** maximum cycles the animation is played back
-* **moveTime** defines how long an animation moves the eye
+* **speed** speed in cycles per second
 * **breakTime** defines how long the eye is resting
-* **moveTimeRandom** random factor to vary the move time
 * **breakTimeRandom** random factor to vary the break time
 
 ### jitter move animation
@@ -211,9 +209,8 @@ Lets the eye jittery move between random positions between 3 and 9 o' clock
 * **propability** propability with which the animation is picked 
 * **minCycles** minimum cycles the animation is played back
 * **maxCycles** maximum cycles the animation is played back
-* **moveTime** defines how long an animation moves the eye
+* **speed** speed in cycles per second
 * **breakTime** defines how long the eye is resting
-* **moveTimeRandom** random factor to vary the move time
 * **breakTimeRandom** random factor to vary the break time
 * **jitterAmplitude** amount of jitter relative to motion range
 * **jitterFrequency** cycles of jitter per second
@@ -239,8 +236,7 @@ Lets the eye roll between 3 and 9 o' clock
 * **propability** propability with which the animation is picked 
 * **minCycles** minimum cycles the animation is played back
 * **maxCycles** maximum cycles the animation is played back
-* **frequency** cycles of per second
-* **minAmplitude** minimum amplitude relative to motion range
-* **maxAmplitude** maximum amplitude relative to motion range
+* **speed** speed in cycles per second
+* **minAmp** minimum amplitude relative to motion range amplitude is random between minamp and 1
 
 
