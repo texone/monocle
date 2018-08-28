@@ -34,6 +34,8 @@ class Comunication{
       Serial.print(",");
       Serial.print(theManager.animationIndex);
       Serial.print(",");
+      Serial.print(theManager.inTransition);
+      Serial.print(",");
       Serial.print(theManager.updateTime);
       Serial.print(",");
       Serial.println(theManager.time());

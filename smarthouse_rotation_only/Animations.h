@@ -99,7 +99,7 @@ class RandomStillAnimation : public BaseStillAnimation {
 
     void init() {
       BaseStillAnimation::init();
-      range(0.9);
+      range(1.0);
       position = dRandomRange();
     }
 
@@ -157,16 +157,21 @@ class RandomMoveAnimation : public AbstractAnimation {
     int cycles = 3;
     int cycle = 0;
 
+    void setDelta(){
+      delta = position1 - position0;
+      _moveTime = max(abs(delta) / speed, MIN_MOVE_TIME);
+      _breakTime = breakTime + (dRandom() * 2 - 1) * breakTime * breakTimeRandom;
+    }
+
     void init() {
       AbstractAnimation::init();
-      range(0.9);
+      range(1.0);
       position0 = dRandomRange();
       position1 = dRandomRange();
       position = position0;
 
-      delta = position1 - position0;
-      _moveTime = max(abs(delta) / speed, 0.2);
-      _breakTime = breakTime + (dRandom() * 2 - 1) * breakTime * breakTimeRandom;
+      setDelta();
+      
       cycles = random(3, 6);
       cycle = 0;
     }
@@ -182,8 +187,8 @@ class RandomMoveAnimation : public AbstractAnimation {
         cycle++;
         position0 = position1;
         position1 = dRandomRange();
-        delta = position1 - position0;
-        _breakTime = breakTime + (dRandom() * 2 - 1) * breakTime * breakTimeRandom;
+        
+        setDelta();
       }
     }
 
@@ -208,7 +213,7 @@ class JitterMoveAnimation : public RandomMoveAnimation {
     double jitterTime = 0;
 
     void init() {
-      AbstractAnimation::range(0.9 - jitterAmplitude);
+      AbstractAnimation::range(1.0 - jitterAmplitude);
       RandomMoveAnimation::init();
     }
 
@@ -247,7 +252,7 @@ class FullRollAnimation : public AbstractAnimation {
     }
 
     virtual double value() {
-      return cos(time * TWO_PI * frequency) * 0.9;
+      return cos(time * TWO_PI * frequency);
     }
 
     virtual bool isFinished() {
@@ -283,7 +288,7 @@ class RandomRollAnimation : public FullRollAnimation {
       position = position0;
 
       delta = position1 - position0;
-      _moveTime = max(abs(delta) / speed, 0.2);
+      _moveTime = max(abs(delta) / speed, MIN_MOVE_TIME);
       cycles = random(3, 6);
       cycle = 0; 
     }
@@ -305,7 +310,7 @@ class RandomRollAnimation : public FullRollAnimation {
     }
 
     virtual double value() {
-      return position * 0.9;
+      return position;
     }
 
     virtual bool isFinished() {
@@ -332,7 +337,7 @@ class TransitionAnimation : public AbstractAnimation {
     void update(double theDeltaTime) {
       AbstractAnimation::update(theDeltaTime);
       double delta = position1 - position0;
-      moveTime = max(abs(delta) / speed, 1.0);
+      moveTime = max(abs(delta) / speed, MIN_MOVE_TIME);
      // Serial.println(delta);
       
       if (time < moveTime) {

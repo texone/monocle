@@ -24,4 +24,6 @@ const long MIN_STEP_TIME = 100;            // Top speed motor 1 -MicroS between 
 const double MAX_ANGLE = radians(175.0 / 2.);
 const double MAX_ANGLE_STEPS = MAX_STEPS;
 
+const double MIN_MOVE_TIME = 0.2;
+
 #endif

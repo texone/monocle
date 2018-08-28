@@ -1,10 +1,10 @@
 import processing.serial.*;
 
 Serial myPort;  // Create object from Serial class
-
+PrintWriter output;
 void setup() 
 {
-  size(800, 800);
+  size(1800, 800);
   frameRate(30);
   // print out all ports find the arduino port
   for (String portName : Serial.list()) {
@@ -12,6 +12,7 @@ void setup()
   }
   textFont(loadFont("Monospaced-48.vlw"), 24);
   myPort = new Serial(this, "/dev/cu.usbmodem1411", 115200);
+  output = createWriter("log.txt"); 
 }
 
 boolean debug = true;
@@ -35,6 +36,7 @@ void keyPressed() {
 StringBuffer readBuffer = new StringBuffer();
 ArrayList<Float> angleBuffer = new ArrayList();
 ArrayList<Float> stepBuffer = new ArrayList();
+ArrayList<Float> speedBuffer = new ArrayList();
 float angle = 0;
 
 String myAnimation = "HOMING";
@@ -45,8 +47,11 @@ String[] animationNames = {
   "RANDOM_MOVE",
   "JITTER_MOVE",
   "FULL_ROLL",
-  "RANDOM_ROLL"
+  "RANDOM_ROLL",
+  "TRANSITION"
 };
+
+float lastInput;
 
 void handleInput() {
   while (myPort.available() > 0) {
@@ -55,7 +60,7 @@ void handleInput() {
       readBuffer.append(inBuffer);
       // println(readBuffer);
     }
-  }
+  } 
   int indexNewLine = 0;
 
   while (indexNewLine >= 0) {
@@ -63,30 +68,51 @@ void handleInput() {
     if (indexNewLine <= 0)continue;
     String myDataString = readBuffer.substring(0, indexNewLine);
     println(myDataString);
+    output.println(myDataString);
+    output.flush();
     readBuffer.delete(0, indexNewLine + 1);
   
     String[] myData = myDataString.split(",");
     try {
       int mySteps = Integer.parseInt(myData[0]);
       int mySteps2 = Integer.parseInt(myData[1]);
+      float speed = mySteps2 - lastInput;
+      lastInput = mySteps2;
       int myIndex = Integer.parseInt(myData[2]);
+      int myTransition = Integer.parseInt(myData[3]);
       
       angle = mySteps / 4000f;
       float angle2 = mySteps2 / 4000f;
       angleBuffer.add(angle);
       stepBuffer.add(angle2);
+      speedBuffer.add(speed * 0.01f);
       while (angleBuffer.size() > width) {
         angleBuffer.remove(0);
       }
       while (stepBuffer.size() > width) {
         stepBuffer.remove(0);
       }
+      while (speedBuffer.size() > width) {
+        speedBuffer.remove(0);
+      }
       
       myAnimation = animationNames[myIndex];
+      if(myTransition == 1){
+        myAnimation = "TRANSITION";
+      }
     }
     catch(Exception e) {
     }
   }
+}
+
+void drawCurve(ArrayList<Float> theData, int r, int g, int b){
+  stroke(r, g, b);
+  beginShape();
+  for (int i = 0; i < theData.size(); i++) {
+    vertex(i, theData.get(i) * height/ 2);
+  }
+  endShape();
 }
 
 void drawCurves() {
@@ -94,17 +120,16 @@ void drawCurves() {
   pushMatrix();
   translate(0, 400);
   noFill();
-  stroke(255, 0, 0);
-  beginShape();
-  for (int i = 0; i < angleBuffer.size(); i++) {
-    vertex(i, angleBuffer.get(i) * height/ 2);
-  }
-  endShape();
-
+  
+  drawCurve(angleBuffer, 130,130,0);
+  drawCurve(stepBuffer, 130,130,130);
+  drawCurve(speedBuffer, 255,0,0);
+  
+  
   stroke(0, 255, 0);
   beginShape();
-  for (int i = 0; i < stepBuffer.size(); i++) {
-    vertex(i, stepBuffer.get(i) * height/ 2);
+  for (int i = 0; i < speedBuffer.size(); i++) {
+    vertex(i, speedBuffer.get(i) * height/ 2);
   }
   endShape();
   noStroke();
@@ -118,10 +143,10 @@ void draw()
   background(0);
   fill(255);
   
-  text(myAnimation,20,30);
+  text(myAnimation + " " + frameRate,20,30);
   
   pushMatrix();
-  scale(width, height);
+  scale(height, height);
   fill(255);
   ellipse(0.5, 0.5, 0.9, 0.9);
 

@@ -13,8 +13,9 @@ enum AnimationMode {
 
 class AnimationManager{
   public:
-    long lastMicros = -1;
+    long lastMicros = 0;
     double updateTime;
+    double amp = 1;
 
     AnimationMode mode = PREVIEW;
 
@@ -134,7 +135,7 @@ class AnimationManager{
     }
 
     double value(){
-      return currentAnimation->value();
+      return currentAnimation->value() * amp;
     }
 };
 #endif

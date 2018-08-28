@@ -14,15 +14,16 @@ class Setup {
       /*
        * make sure debug is false before running on motor this is only for simulation mode
        */
-      com->debug = true;
-      motor->homing = false;
+      com->debug = false;
+      motor->homing = true;
       /*
        * Choose one of
        * PREVIEW, 
        * CYCLE, 
        * RANDOM
        */
-      theAnimationManager->mode = PREVIEW;
+      theAnimationManager->mode = CYCLE;
+      theAnimationManager->amp = 0.9;
 
       // settings for installation uncomment to run 
       //com->debug = false;
@@ -53,9 +54,9 @@ class Setup {
       theAnimationManager->jitterStill.minDuration = 10;    // any value bigger than 0
       theAnimationManager->jitterStill.maxDuration = 20;    // any value bigger than 0
 
-      theAnimationManager->jitterStill.jitterAmplitude = 0.015;  // jitter amount relative range 0 to 0.25    def 0.1
-      theAnimationManager->jitterStill.jitterFrequency = 4;  // movements per second max dependent on amp def 0.5
-      theAnimationManager->jitterStill.jitterFade = 0.4;       // range 0.1 to 0.5                          def 0.1
+      theAnimationManager->jitterStill.jitterAmplitude = 0.05;  // jitter amount relative range 0 to 0.25    def 0.1
+      theAnimationManager->jitterStill.jitterFrequency = 1;  // movements per second max dependent on amp def 0.5
+      theAnimationManager->jitterStill.jitterFade = 0.1;       // range 0.1 to 0.5                          def 0.1
 
       // Setup RANDOM_MOVE animation
 
@@ -63,18 +64,18 @@ class Setup {
       theAnimationManager->randomMove.maxCycles = 4;          // any value bigger than 0
 
       theAnimationManager->randomMove.speed = 0.2;           // value bigger than 3
-      theAnimationManager->randomMove.breakTime = 10;          // any value
+      theAnimationManager->randomMove.breakTime = 0.5;          // any value
       
-      theAnimationManager->randomMove.breakTimeRandom = 1;  // range 0. to 1. 
+      theAnimationManager->randomMove.breakTimeRandom = 0;  // range 0. to 1. 
 
       //Setup JITTER_MOVE animation
 
       theAnimationManager->jitterMove.minCycles = 4;
       theAnimationManager->jitterMove.maxCycles = 4;
 
-      theAnimationManager->jitterMove.jitterAmplitude = 0.001;  //def 0.1
+      theAnimationManager->jitterMove.jitterAmplitude = 0.05;  //def 0.1
       theAnimationManager->jitterMove.jitterFade = 0.1;       //def 0.5
-      theAnimationManager->jitterMove.jitterFrequency = 4;  //def 0.5  
+      theAnimationManager->jitterMove.jitterFrequency = 1;  //def 0.5  
 
       theAnimationManager->jitterMove.speed = 0.2;           //def 5   
 
@@ -90,7 +91,7 @@ class Setup {
       theAnimationManager->randomRoll.minCycles = 4;          // any value bigger than 0
       theAnimationManager->randomRoll.maxCycles = 4;          // any value bigger than 0
 
-      theAnimationManager->randomRoll.speed = 0.2;           // value bigger than 3
+      theAnimationManager->randomRoll.speed = 0.3;           // value bigger than 3
       theAnimationManager->randomRoll.minAmp = 0.25;         // value 0. to 1
 
       /*
@@ -103,7 +104,7 @@ class Setup {
        * FULL_ROLL,
        * RANDOM_ROLL
        */
-      theAnimationManager->animation(RANDOM_ROLL);
+      theAnimationManager->animation(RANDOM_MOVE);
     }
 };
 
