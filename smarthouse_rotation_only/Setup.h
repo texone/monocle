@@ -14,15 +14,15 @@ class Setup {
       /*
        * make sure debug is false before running on motor this is only for simulation mode
        */
-      com->debug = false;
-      motor->homing = true;
+      com->debug = true;
+      motor->homing = false;
       /*
        * Choose one of
        * PREVIEW, 
        * CYCLE, 
        * RANDOM
        */
-      theAnimationManager->mode = CYCLE;
+      theAnimationManager->mode = PREVIEW;
       theAnimationManager->amp = 0.9;
 
       // settings for installation uncomment to run 
@@ -31,7 +31,7 @@ class Setup {
       //theAnimationManager->mode = RANDOM;
 
       // Setup animation manager transition speed
-      theAnimationManager->transition.speed = 0.3;
+      theAnimationManager->transition.speed = 1.0;
 
       // Setup propabilities
       theAnimationManager->baseStill.propability    = 0.1;  // any value bigger than 0
@@ -47,19 +47,19 @@ class Setup {
       theAnimationManager->baseStill.maxDuration = 6;       // any value bigger than 0
 
       // Setup RANDOM_STILL animation
-      theAnimationManager->randomStill.minDuration = 1;     // any value bigger than 0
-      theAnimationManager->randomStill.maxDuration = 1;     // any value bigger than 0
+      theAnimationManager->randomStill.minDuration = 3;     // any value bigger than 0
+      theAnimationManager->randomStill.maxDuration = 3;     // any value bigger than 0
 
       // Setup JITTER_STILL animation
       theAnimationManager->jitterStill.minDuration = 10;    // any value bigger than 0
       theAnimationManager->jitterStill.maxDuration = 20;    // any value bigger than 0
 
-      theAnimationManager->jitterStill.jitterAmplitude = 0.05;  // jitter amount relative range 0 to 0.25    def 0.1
-      theAnimationManager->jitterStill.jitterFrequency = 1;  // movements per second max dependent on amp def 0.5
+      theAnimationManager->jitterStill.jitterAmplitude = 0.1;  // jitter amount relative range 0 to 0.25    def 0.1
+      theAnimationManager->jitterStill.jitterFrequency = 0.5;  // movements per second max dependent on amp def 0.5
       theAnimationManager->jitterStill.jitterFade = 0.1;       // range 0.1 to 0.5                          def 0.1
 
       // Setup RANDOM_MOVE animation
-
+      
       theAnimationManager->randomMove.minCycles = 4;          // any value bigger than 0
       theAnimationManager->randomMove.maxCycles = 4;          // any value bigger than 0
 
@@ -73,9 +73,9 @@ class Setup {
       theAnimationManager->jitterMove.minCycles = 4;
       theAnimationManager->jitterMove.maxCycles = 4;
 
-      theAnimationManager->jitterMove.jitterAmplitude = 0.05;  //def 0.1
+      theAnimationManager->jitterMove.jitterAmplitude = 0.1;  //def 0.1
       theAnimationManager->jitterMove.jitterFade = 0.1;       //def 0.5
-      theAnimationManager->jitterMove.jitterFrequency = 1;  //def 0.5  
+      theAnimationManager->jitterMove.jitterFrequency = 0.5;  //def 0.5  
 
       theAnimationManager->jitterMove.speed = 0.2;           //def 5   
 
@@ -104,7 +104,7 @@ class Setup {
        * FULL_ROLL,
        * RANDOM_ROLL
        */
-      theAnimationManager->animation(RANDOM_MOVE);
+      theAnimationManager->animation(RANDOM_ROLL);
     }
 };
 

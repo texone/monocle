@@ -341,7 +341,7 @@ class TransitionAnimation : public AbstractAnimation {
      // Serial.println(delta);
       
       if (time < moveTime) {
-        position = position0 + delta * smoothStep(0, 1, time / moveTime);
+        position = position0 + delta * interpolateCos(time / moveTime);
       }
     }
 

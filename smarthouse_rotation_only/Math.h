@@ -10,6 +10,10 @@ double smoothStep(double edge0, double edge1, double x) {
     return t * t * (3.0 - 2.0 * t);
 }
 
+double interpolateCos(double t){
+  return (cos(PI + saturate(t) * PI) +1) / 2;
+}
+
 double dRandom() {
   return random(0, 100000) / 100000. ;
 }

@@ -4,6 +4,7 @@
 #include "Animations.h"
 #include "Constants.h"
 #include "Math.h"
+#include "Filter.h"
 
 enum AnimationMode {
   PREVIEW,
@@ -13,7 +14,7 @@ enum AnimationMode {
 
 class AnimationManager{
   public:
-    long lastMicros = 0;
+    unsigned long lastMicros = 0;
     double updateTime;
     double amp = 1;
 
@@ -38,6 +39,9 @@ class AnimationManager{
     AbstractAnimation* nextAnimation;
 
     bool inTransition = true;
+
+    // standard Lowpass, set to the corner frequency
+    //FilterTwoPole filterTwoLowpass;                                       // create a two pole Lowpass filter
     
     AnimationManager(){
       animations[BASE_STILL] = &baseStill;
@@ -47,6 +51,10 @@ class AnimationManager{
       animations[JITTER_MOVE] = &jitterMove;
       animations[FULL_ROLL] = &fullRoll;
       animations[RANDOM_ROLL] = &randomRoll;
+
+      //float testFrequency = 2;                     // test signal frequency (Hz)
+      // float testAmplitude = 100;                   // test signal amplitude
+      //filterTwoLowpass.setAsFilter( LOWPASS_BUTTERWORTH, testFrequency );
 
       //currentAnimation = animations[BASE_STILL];
     }
@@ -131,11 +139,11 @@ class AnimationManager{
     }
 
     long steps(){
-      return currentAnimation->value() * MAX_STEPS;
+      return value() * MAX_STEPS;
     }
 
     double value(){
-      return currentAnimation->value() * amp;
+      return currentAnimation->value() * amp;//filterTwoLowpass.input();
     }
 };
 #endif
