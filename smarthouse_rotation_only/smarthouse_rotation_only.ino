@@ -5,6 +5,7 @@
 #include "Constants.h"
 #include "Motor.h"
 #include "Setup.h"
+#include "Clock.h"
 
 
 /*
@@ -13,6 +14,7 @@
 
 Motor motor(STEP_PIN, DIR_PIN, HOME);
 Comunication com;
+Clock clock;
 
 AnimationManager animationManager;
 Setup valueSetup;
@@ -27,8 +29,11 @@ void setup() {
   com.setup();
 
   valueSetup.setValues(&animationManager, &com, &motor);
-  
+
+  animationManager.setValues(&clock);
   animationManager.setup();
+  animationManager.daySetup = setDayValues;
+  animationManager.nightSetup = setNightValues;
   motor.setup();
 }
 

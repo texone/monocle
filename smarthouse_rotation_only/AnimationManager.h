@@ -5,6 +5,8 @@
 #include "Constants.h"
 #include "Math.h"
 #include "Filter.h"
+#include "Clock.h"
+
 
 enum AnimationMode {
   PREVIEW,
@@ -12,16 +14,23 @@ enum AnimationMode {
   RANDOM
 };
 
-class AnimationManager{
+enum TimeMode {
+  CLOCK,
+  NIGHT,
+  DAY
+};
+
+class AnimationManager {
   public:
     unsigned long lastMicros = 0;
     double updateTime;
     double amp = 1;
 
     AnimationMode mode = PREVIEW;
+    TimeMode timeMode = CLOCK;
 
     AbstractAnimation* animations[7];
-    
+
     double propabilitySum = 0;
     double propabilitySums[7];
 
@@ -34,16 +43,21 @@ class AnimationManager{
     RandomRollAnimation randomRoll;
 
     TransitionAnimation transition;
-    
+
     AbstractAnimation* currentAnimation;
     AbstractAnimation* nextAnimation;
 
     bool inTransition = true;
 
+    void (*daySetup)(AnimationManager*);
+    void (*nightSetup)(AnimationManager*);
+
+    Clock* clock;
+
     // standard Lowpass, set to the corner frequency
     //FilterTwoPole filterTwoLowpass;                                       // create a two pole Lowpass filter
-    
-    AnimationManager(){
+
+    AnimationManager() {
       animations[BASE_STILL] = &baseStill;
       animations[RANDOM_STILL] = &randomStill;
       animations[JITTER_STILL] = &jitterStill;
@@ -59,38 +73,64 @@ class AnimationManager{
       //currentAnimation = animations[BASE_STILL];
     }
 
-    void setup(){
-      for(int i = 0; i < 7;i++){
+    void setValues(Clock* theClock) {
+      clock = theClock;
+    }
+
+    void setup() {
+      for (int i = 0; i < 7; i++) {
         propabilitySum += animations[i] -> propability;
         propabilitySums[i] = propabilitySum;
       }
-    } 
+    }
 
-    void animation(Animation theAnimation){
+    void applySetup() {
+      /*
+      switch (timeMode) {
+        case DAY:
+          daySetup(this);
+          break;
+        case NIGHT:
+          nightSetup(this);
+          break;
+        case CLOCK:
+          if(clock->isDay()){
+            daySetup(this);
+          }else{
+            nightSetup(this);
+          }
+          break;
+      }
+*/
+    }
+
+    void animation(Animation theAnimation) {
       animationIndex = theAnimation;
       animation(animations[theAnimation]);
     }
 
-    void animation(AbstractAnimation *theAnimation){
+    void animation(AbstractAnimation *theAnimation) {
       nextAnimation = theAnimation;
-      if(currentAnimation){
+      if (currentAnimation) {
         transition.position0 = currentAnimation->value();
-      }else{
+      } else {
         transition.position0 = 1;
       }
       nextAnimation->init();
       transition.position1 = nextAnimation->value();
       transition.init();
-      
+
       currentAnimation = &transition;
       inTransition = true;
+
+      applySetup();
     }
 
     int counter = 0;
     int animationIndex = 0;
 
-    AbstractAnimation* getNextAnimation(){
-      switch(mode){
+    AbstractAnimation* getNextAnimation() {
+      switch (mode) {
         case PREVIEW:
           return nextAnimation;
         case CYCLE:
@@ -100,8 +140,8 @@ class AnimationManager{
           return animations[counter];
         case RANDOM:
           double myRandom = dRandom() * propabilitySum;
-          for(int i = 0; i < 7;i++){
-            if(myRandom < propabilitySums[i]){
+          for (int i = 0; i < 7; i++) {
+            if (myRandom < propabilitySums[i]) {
               animationIndex = i;
               return animations[i];
             }
@@ -110,39 +150,39 @@ class AnimationManager{
       }
       return nextAnimation;
     }
-  
-    void update(){
-      if(lastMicros <= 0){
+
+    void update() {
+      if (lastMicros <= 0) {
         lastMicros = micros();
       }
-      
+
       unsigned long currentMicros = micros(); // take time snapshot
       unsigned long passedTime = currentMicros - lastMicros;
       updateTime = double(passedTime) / 1000000.;
-     
+
       lastMicros = currentMicros;
 
       currentAnimation->update(updateTime);
 
-      if(currentAnimation->isFinished()){
-        if(inTransition){
+      if (currentAnimation->isFinished()) {
+        if (inTransition) {
           inTransition = false;
           currentAnimation = nextAnimation;
-        }else{
+        } else {
           animation(getNextAnimation());
         }
       }
     }
 
-    double time(){
+    double time() {
       return currentAnimation->time;
     }
 
-    long steps(){
+    long steps() {
       return value() * MAX_STEPS;
     }
 
-    double value(){
+    double value() {
       return currentAnimation->value() * amp;//filterTwoLowpass.input();
     }
 };

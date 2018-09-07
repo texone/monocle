@@ -12,7 +12,7 @@ void setup()
   }
   textFont(loadFont("Monospaced-48.vlw"), 24);
   myPort = new Serial(this, "/dev/cu.usbmodem1411", 115200);
-  output = createWriter("log.txt"); 
+  //output = createWriter("log.txt"); 
 }
 
 boolean debug = true;
@@ -68,8 +68,8 @@ void handleInput() {
     if (indexNewLine <= 0)continue;
     String myDataString = readBuffer.substring(0, indexNewLine);
     println(myDataString);
-    output.println(myDataString);
-    output.flush();
+   // output.println(myDataString);
+    //output.flush();
     readBuffer.delete(0, indexNewLine + 1);
   
     String[] myData = myDataString.split(",");
