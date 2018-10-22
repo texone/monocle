@@ -14,15 +14,15 @@ class Setup {
       /*
          make sure debug is false before running on motor this is only for simulation mode
       */
-      com->debug = false;
-      motor->homing = true;
+      com->debug = true;
+      motor->homing = false;
       /*
          Choose one of
          PREVIEW,
          CYCLE,
          RANDOM
       */
-      theAnimationManager->mode = PREVIEW;
+      theAnimationManager->mode = CYCLE;
       theAnimationManager->timeMode = DAY;
       theAnimationManager->amp = 0.9;
 
@@ -32,7 +32,7 @@ class Setup {
       //theAnimationManager->mode = RANDOM;
 
       // Setup animation manager transition speed
-      theAnimationManager->transition.speed = 1.0;
+      theAnimationManager->transition.speed = 0.25;
 
       // Setup propabilities
       theAnimationManager->baseStill.propability    = 0.1;  // any value bigger than 0
