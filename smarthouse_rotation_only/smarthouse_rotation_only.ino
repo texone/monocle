@@ -44,6 +44,6 @@ void loop() {
   motor.target(animationManager.steps());
   motor.move();
   loopCount++;
-  if(loopCount % 100 == 0)com.print(animationManager, &motor);
+  if(loopCount % 10 == 0)com.print(animationManager, &motor);
   //Serial.println("texone");
 }
