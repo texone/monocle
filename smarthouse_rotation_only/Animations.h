@@ -57,8 +57,8 @@ class AbstractAnimation {
       time += theDeltaTime;
     }
 
-    virtual double value() {
-      return position;
+    virtual double value(double theAmp) {
+      return position * theAmp;
     }
 
     virtual boolean isFinished() {}
@@ -103,8 +103,8 @@ class RandomStillAnimation : public BaseStillAnimation {
       position = dRandomRange();
     }
 
-    double value() {
-      return position;
+    double value(double theAmp) {
+      return position * theAmp;
     }
 };
 
@@ -124,14 +124,14 @@ class JitterStillAnimation : public BaseStillAnimation {
       position = dRandomRange();
     }
 
-    virtual double value() {
+    virtual double value(double theAmp) {
       double timeBlend = time / duration;
       double blend = min(
         smoothStep(0,jitterFade,timeBlend),
         smoothStep(1,1 - jitterFade,timeBlend)
       );
     
-      return position + cos(time * TWO_PI * jitterFrequency) * jitterAmplitude * blend;
+      return (position + cos(time * TWO_PI * jitterFrequency) * jitterAmplitude * blend) * theAmp;
     }
 };
 
@@ -192,8 +192,8 @@ class RandomMoveAnimation : public AbstractAnimation {
       }
     }
 
-    virtual double value() {
-      return position;
+    virtual double value(double theAmp) {
+      return position * theAmp;
     }
 
     virtual bool isFinished() {
@@ -224,14 +224,14 @@ class JitterMoveAnimation : public RandomMoveAnimation {
       
     }
 
-    virtual double value() {
+    virtual double value(double theAmp) {
       double timeBlend = time / (_moveTime + _breakTime);
       double blend = min(
         cycle == 0 ? smoothStep(0,jitterFade,timeBlend) : 1,
         cycle == cycles ? 1 /*smoothStep(1,1 - jitterFade,timeBlend)*/ : 1
       );
     
-      return position + cos(jitterTime * TWO_PI * jitterFrequency) * jitterAmplitude * blend;
+      return (position + cos(jitterTime * TWO_PI * jitterFrequency) * jitterAmplitude * blend) * theAmp;
     }
 };
 
@@ -251,8 +251,8 @@ class FullRollAnimation : public AbstractAnimation {
       cycles = random(minCycles, maxCycles);
     }
 
-    virtual double value() {
-      return cos(time * TWO_PI * frequency);
+    virtual double value(double theAmp) {
+      return cos(time * TWO_PI * frequency) * theAmp;
     }
 
     virtual bool isFinished() {
@@ -309,8 +309,8 @@ class RandomRollAnimation : public FullRollAnimation {
       }
     }
 
-    virtual double value() {
-      return position;
+    virtual double value(double theAmp) {
+      return position * theAmp;
     }
 
     virtual bool isFinished() {
@@ -345,7 +345,7 @@ class TransitionAnimation : public AbstractAnimation {
       }
     }
 
-    virtual double value() {
+    virtual double value(double theAmp) {
       return position;
     }
 
