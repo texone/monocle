@@ -11,7 +11,7 @@ void setup()
     println(portName);
   }
   textFont(loadFont("Monospaced-48.vlw"), 24);
-  myPort = new Serial(this, "/dev/cu.usbmodem1411", 115200);
+  myPort = new Serial(this, "COM3", 115200);
   //output = createWriter("log.txt"); 
 }
 
@@ -34,10 +34,11 @@ void keyPressed() {
 
 
 StringBuffer readBuffer = new StringBuffer();
-ArrayList<Float> angleBuffer = new ArrayList();
+ArrayList<Float> targetBuffer = new ArrayList();
 ArrayList<Float> stepBuffer = new ArrayList();
 ArrayList<Float> speedBuffer = new ArrayList();
-float angle = 0;
+ArrayList<Float> difBuffer = new ArrayList();
+float target = 0;
 
 String myAnimation = "HOMING";
 String[] animationNames = {
@@ -74,26 +75,32 @@ void handleInput() {
   
     String[] myData = myDataString.split(",");
     try {
-      int mySteps = Integer.parseInt(myData[0]);
-      int mySteps2 = Integer.parseInt(myData[1]);
-      float speed = mySteps2 - lastInput;
-      lastInput = mySteps2;
+      int myTargetSteps = Integer.parseInt(myData[0]);
+      int myCurrentSteps = Integer.parseInt(myData[1]);
+      float speed = myCurrentSteps - lastInput;
+      lastInput = myCurrentSteps;
       int myIndex = Integer.parseInt(myData[2]);
       int myTransition = Integer.parseInt(myData[3]);
       
-      angle = mySteps / 4000f;
-      float angle2 = mySteps2 / 4000f;
-      angleBuffer.add(angle);
-      stepBuffer.add(angle2);
-      speedBuffer.add(speed * 0.01f);
-      while (angleBuffer.size() > width) {
-        angleBuffer.remove(0);
+      int diff = myCurrentSteps - myTargetSteps;
+      println(diff);
+      difBuffer.add(diff / 4000f);
+      target = myTargetSteps / 4000f;
+      float current = myCurrentSteps / 4000f;
+      targetBuffer.add(target);
+      stepBuffer.add(current);
+      speedBuffer.add(speed * 0.04f);
+      while (targetBuffer.size() > width) {
+        targetBuffer.remove(0);
       }
       while (stepBuffer.size() > width) {
         stepBuffer.remove(0);
       }
       while (speedBuffer.size() > width) {
         speedBuffer.remove(0);
+      }
+      while (difBuffer.size() > width) {
+        difBuffer.remove(0);
       }
       
       myAnimation = animationNames[myIndex];
@@ -117,11 +124,12 @@ void drawCurve(ArrayList<Float> theData, int r, int g, int b){
 
 void drawCurves() {
   if (!debug)return;
+  noFill();
   pushMatrix();
   translate(0, 400);
-  noFill();
   
-  drawCurve(angleBuffer, 130,130,0);
+  drawCurve(difBuffer, 130,0,0);
+  drawCurve(targetBuffer, 130,130,0);
   drawCurve(stepBuffer, 130,130,130);
   drawCurve(speedBuffer, 255,0,0);
   
@@ -152,7 +160,7 @@ void draw()
 
   pushMatrix();
   translate(0.5, 0.5);
-  rotate(angle * radians(175f / 2));
+  rotate(target * radians(175f / 2));
 
   fill(0);
   ellipse(0, 0.32, 0.25, 0.25);
