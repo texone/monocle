@@ -57,6 +57,10 @@ class AnimationManager {
     // standard Lowpass, set to the corner frequency
     //FilterTwoPole filterTwoLowpass;                                       // create a two pole Lowpass filter
 
+    double _myCurrentPos = 1;
+    double _myAcc = 0;
+    double _myVel = 0;
+
     AnimationManager() {
       animations[BASE_STILL] = &baseStill;
       animations[RANDOM_STILL] = &randomStill;
@@ -112,12 +116,12 @@ class AnimationManager {
     void animation(AbstractAnimation *theAnimation) {
       nextAnimation = theAnimation;
       if (currentAnimation) {
-        transition.position0 = currentAnimation->value();
+        transition.position0 = currentAnimation->value(amp);
       } else {
         transition.position0 = 1;
       }
       nextAnimation->init();
-      transition.position1 = nextAnimation->value();
+      transition.position1 = nextAnimation->value(amp);
       transition.init();
 
       currentAnimation = &transition;
@@ -172,6 +176,14 @@ class AnimationManager {
           animation(getNextAnimation());
         }
       }
+
+      double myTarget = value();
+
+      double myAcc = (myTarget - (_myCurrentPos +  _myVel * 1)) * 100;
+      myAcc = constrain(myAcc, -MAX_ANIMATION_ACC, MAX_ANIMATION_ACC);
+      _myVel += myAcc * updateTime;
+      _myVel = constrain(_myVel, -MAX_ANIMATION_VEL,MAX_ANIMATION_VEL);
+      _myCurrentPos += _myVel * updateTime;
     }
 
     double time() {
@@ -179,12 +191,11 @@ class AnimationManager {
     }
 
     long steps() {
-      return value() * MAX_STEPS;
+      return _myCurrentPos * MAX_STEPS;
     }
 
     double value() {
-      return currentAnimation->value() * amp;//filterTwoLowpass.input();
+      return currentAnimation->value(amp);//filterTwoLowpass.input();
     }
 };
 #endif
-
