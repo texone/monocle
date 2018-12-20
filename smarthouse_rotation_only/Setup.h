@@ -29,7 +29,7 @@ class Setup {
       // settings for installation uncomment to run
       com->debug = false;
       motor->homing = true;
-      theAnimationManager->mode = RANDOM;
+      theAnimationManager->mode = CYCLE;
 
       // Setup animation manager transition speed
       theAnimationManager->transition.speed = 0.08;   //0.25;

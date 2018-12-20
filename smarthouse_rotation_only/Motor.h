@@ -69,18 +69,35 @@ class Motor {
             currentStep++;
           }
         }
-        /*
-                if (stepAcounter > watchdog + 2000) {
-                  ledState = digitalRead(LED_PIN);
-                  digitalWrite(LED_PIN, !digitalRead(ledState)); // flash watchdog
-                  watchdog = stepAcounter;
-                }*/
-
       }
 
       // update all outputs
       digitalWrite(dirPin, dirState); // same as onboard LED
       digitalWrite(stepPin, stepState);
+    }
+
+    /*
+     * To detect a RMS or other fault on the motor, just constantly monitor the HOME (Boolean) input.
+     * On faults this input goes high (or opposite just like when homing).
+     * You can then turn off ENABLE, sleep(3000) then turn ENABLE on again to initiate the homing sequence.
+     * Your program will have to start from the beginning, first wait for the home to complete than run as normal.
+     */
+    void checkFault(){
+      //  To detect a RMS or other fault on the motor constantly monitor the HOME (Boolean) input.
+      // On faults this input goes high (or opposite just like when homing).
+      if(digitalRead(homePin) == LOW)return;
+
+      // You can then turn off ENABLE
+      digitalWrite(ENABLE, LOW);
+
+      delay(3000);
+
+      //enable the motor to be ready after homing
+      homeCycle();
+    }
+
+    void update(){
+      move();
     }
 
 };

@@ -21,7 +21,7 @@ Setup valueSetup;
 
 long loopCount = 0;
 
-void setup() { 
+void setup() {
   // set the digital pin as output:
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);
@@ -37,13 +37,26 @@ void setup() {
   motor.setup();
 }
 
+/*
+long lastMillis = 0;
 
+long timer = 0;
+*/
 
 void loop() {
+  /*
+  timer += millis() - lastMillis;
+  lastMillis = millis();
+
+  if(timer > 20000){
+    timer = 0;
+    animationManager.reset();
+  }*/
+  
   animationManager.update();
   motor.target(animationManager.steps());
   motor.move();
   loopCount++;
-  if(loopCount % 10 == 0)com.print(animationManager, &motor);
+  if (loopCount % 100 == 0)com.print(animationManager, &motor);
   //Serial.println("texone");
 }

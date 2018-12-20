@@ -4,7 +4,6 @@
 #include "Animations.h"
 #include "Constants.h"
 #include "Math.h"
-#include "Filter.h"
 #include "Clock.h"
 
 
@@ -54,11 +53,7 @@ class AnimationManager {
 
     Clock* clock;
 
-    // standard Lowpass, set to the corner frequency
-    //FilterTwoPole filterTwoLowpass;                                       // create a two pole Lowpass filter
-
     double _myCurrentPos = 1;
-    double _myAcc = 0;
     double _myVel = 0;
 
     AnimationManager() {
@@ -69,12 +64,6 @@ class AnimationManager {
       animations[JITTER_MOVE] = &jitterMove;
       animations[FULL_ROLL] = &fullRoll;
       animations[RANDOM_ROLL] = &randomRoll;
-
-      //float testFrequency = 2;                     // test signal frequency (Hz)
-      // float testAmplitude = 100;                   // test signal amplitude
-      //filterTwoLowpass.setAsFilter( LOWPASS_BUTTERWORTH, testFrequency );
-
-      //currentAnimation = animations[BASE_STILL];
     }
 
     void setValues(Clock* theClock) {
@@ -153,6 +142,13 @@ class AnimationManager {
           break;
       }
       return nextAnimation;
+    }
+
+    void reset(){
+      currentAnimation = NULL;
+      _myCurrentPos = 1;
+      _myVel = 0;
+      animation(getNextAnimation());
     }
 
     void update() {
