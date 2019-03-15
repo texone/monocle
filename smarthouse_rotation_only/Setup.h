@@ -7,14 +7,13 @@ class Setup {
   public:
     void setValues(
       AnimationManager* theAnimationManager,
-      Comunication* com,
       Motor* motor
     ) {
 
       /*
          make sure debug is false before running on motor this is only for simulation mode
       */
-      com->debug = true;
+      DEBUG = true;
       motor->homing = false;
       /*
          Choose one of
@@ -27,8 +26,8 @@ class Setup {
       theAnimationManager->amp = 0.9;
 
       // settings for installation uncomment to run
-      com->debug = false;
-      motor->homing = true;
+      //DEBUG = false;
+      //motor->homing = true;
       theAnimationManager->mode = CYCLE;
 
       // Setup animation manager transition speed

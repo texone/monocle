@@ -5,7 +5,9 @@
  * Contains application constants
  */
 //Declares
-const bool DEBUG = true;
+bool DEBUG = true;
+
+bool PRINT_ANIMATION = true;
 
 const int LED_PIN =  LED_BUILTIN; // #13=the number of the LED pin
 

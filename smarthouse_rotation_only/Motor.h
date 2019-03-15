@@ -1,6 +1,9 @@
 #ifndef __Motor__
 #define __Motor__
 
+#include "Comunication.h"
+#include "AnimationManager.h"
+
 class Motor {
   public:
     const byte stepPin;
@@ -13,7 +16,7 @@ class Motor {
     unsigned long previousTm = 0;  // will store last time motor1 was updated
 
     long currentStep;
-
+    AnimationManager* animationManager;
   
     Motor(byte theStepPin, byte theDirPin, byte theHomePin) :
       stepPin(theStepPin),
@@ -22,16 +25,19 @@ class Motor {
     {}
 
 
-    void setup() {
+    void setup(AnimationManager* theAnimationManager) {
       pinMode(stepPin, OUTPUT);
       pinMode(dirPin, OUTPUT);
       pinMode(ENABLE, OUTPUT);
       pinMode(homePin, INPUT_PULLUP); // connect: Arduino pin6 & GND
 
+      animationManager = theAnimationManager;
       homeCycle();
+
     }
 
     void homeCycle() {
+      println("START HOME CYCLE");
       //enable the motor to be ready after homing
       digitalWrite(ENABLE, HIGH);
 
@@ -40,7 +46,8 @@ class Motor {
         //wait for the home signal to activate, (motor; All-Systems-Go actually)
         delay(20);
       }
-
+      animationManager->reset();
+      println("END HOME CYCLE");
       currentStep = MAX_STEPS;
     }
 
@@ -52,7 +59,32 @@ class Motor {
 
     unsigned long previousTime = 0;  // will store last time motor1 was updated
 
+    /*
+     * To detect a RMS or other fault on the motor, just constantly monitor the HOME (Boolean) input.
+     * On faults this input goes high (or opposite just like when homing).
+     * You can then turn off ENABLE, sleep(3000) then turn ENABLE on again to initiate the homing sequence.
+     * Your program will have to start from the beginning, first wait for the home to complete than run as normal.
+     */
+    void checkFault(){
+      //  To detect a RMS or other fault on the motor constantly monitor the HOME (Boolean) input.
+      // On faults this input goes high (or opposite just like when homing).
+      
+      if(digitalRead(homePin) == LOW)return;
+      println("DETECT RMS");
+
+      // You can then turn off ENABLE
+      digitalWrite(ENABLE, LOW);
+
+      delay(3000);
+
+      //enable the motor to be ready after homing
+      homeCycle();
+    }
+
     void move() {
+      
+      checkFault();
+      
       unsigned long currentMillis = micros(); // take time snapshot
 
       if (currentMillis - previousTime >= MIN_STEP_TIME) {
@@ -74,26 +106,6 @@ class Motor {
       // update all outputs
       digitalWrite(dirPin, dirState); // same as onboard LED
       digitalWrite(stepPin, stepState);
-    }
-
-    /*
-     * To detect a RMS or other fault on the motor, just constantly monitor the HOME (Boolean) input.
-     * On faults this input goes high (or opposite just like when homing).
-     * You can then turn off ENABLE, sleep(3000) then turn ENABLE on again to initiate the homing sequence.
-     * Your program will have to start from the beginning, first wait for the home to complete than run as normal.
-     */
-    void checkFault(){
-      //  To detect a RMS or other fault on the motor constantly monitor the HOME (Boolean) input.
-      // On faults this input goes high (or opposite just like when homing).
-      if(digitalRead(homePin) == LOW)return;
-
-      // You can then turn off ENABLE
-      digitalWrite(ENABLE, LOW);
-
-      delay(3000);
-
-      //enable the motor to be ready after homing
-      homeCycle();
     }
 
     void update(){

@@ -148,6 +148,7 @@ class AnimationManager {
       currentAnimation = NULL;
       _myCurrentPos = 1;
       _myVel = 0;
+      lastMicros = 0;
       animation(getNextAnimation());
     }
 
