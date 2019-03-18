@@ -7,6 +7,7 @@
 #include "Setup.h"
 #include "Clock.h"
 #include <Console.h>
+#include "TimeLib.h"
 
 
 /*
@@ -83,15 +84,6 @@ void printAnimation(AnimationManager theManager, Motor* motor) {
 }
 
 void loop() {
-  /*
-    timer += millis() - lastMillis;
-    lastMillis = millis();
-
-    if(timer > 20000){
-    timer = 0;
-    animationManager.reset();
-    }*/
-
   animationManager.update();
   motor.target(animationManager.steps());
   motor.move();

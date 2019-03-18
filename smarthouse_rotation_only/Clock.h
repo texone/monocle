@@ -39,7 +39,7 @@ class Clock {
 
     void print() {
       DateTime now = rtc.now();
-      
+#if defined(ARDUINO_AVR_UNO)
       Serial.print(now.year(), DEC);
       Serial.print('/');
       Serial.print(now.month(), DEC);
@@ -60,6 +60,28 @@ class Clock {
       Serial.print("s = ");
       Serial.print(now.unixtime() / 86400L);
       Serial.println("d");
+#else
+      Console.print(now.year(), DEC);
+      Console.print('/');
+      Console.print(now.month(), DEC);
+      Console.print('/');
+      Console.print(now.day(), DEC);
+      Console.print(" (");
+      Console.print(daysOfTheWeek[now.dayOfTheWeek()]);
+      Console.print(") ");
+      Console.print(now.hour(), DEC);
+      Console.print(':');
+      Console.print(now.minute(), DEC);
+      Console.print(':');
+      Console.print(now.second(), DEC);
+      Console.println();
+
+      Console.print(" since midnight 1/1/1970 = ");
+      Console.print(now.unixtime());
+      Console.print("s = ");
+      Console.print(now.unixtime() / 86400L);
+      Console.println("d");
+#endif
     }
 
     bool isDay() {

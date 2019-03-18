@@ -78,7 +78,7 @@ class AnimationManager {
     }
 
     void applySetup() {
-      /*
+      
       switch (timeMode) {
         case DAY:
           daySetup(this);
@@ -94,7 +94,6 @@ class AnimationManager {
           }
           break;
       }
-*/
     }
 
     void animation(Animation theAnimation) {
