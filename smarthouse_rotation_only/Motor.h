@@ -37,7 +37,7 @@ class Motor {
     }
 
     void homeCycle() {
-      println("START HOME CYCLE");
+      if(DEBUG)Serial.println("START HOME CYCLE");
       //enable the motor to be ready after homing
       digitalWrite(ENABLE, HIGH);
 
@@ -47,7 +47,7 @@ class Motor {
         delay(20);
       }
       animationManager->reset();
-      println("END HOME CYCLE");
+      if(DEBUG)Serial.println("END HOME CYCLE");
       currentStep = MAX_STEPS;
     }
 
@@ -58,6 +58,16 @@ class Motor {
     }
 
     unsigned long previousTime = 0;  // will store last time motor1 was updated
+
+    void restart(){
+      // You can then turn off ENABLE
+      digitalWrite(ENABLE, LOW);
+
+      delay(3000);
+
+      //enable the motor to be ready after homing
+      homeCycle();
+    }
 
     /*
      * To detect a RMS or other fault on the motor, just constantly monitor the HOME (Boolean) input.
@@ -70,20 +80,14 @@ class Motor {
       // On faults this input goes high (or opposite just like when homing).
       
       if(digitalRead(homePin) == LOW)return;
-      println("DETECT RMS");
+      if(DEBUG)Serial.println("DETECT RMS");
 
-      // You can then turn off ENABLE
-      digitalWrite(ENABLE, LOW);
-
-      delay(3000);
-
-      //enable the motor to be ready after homing
-      homeCycle();
+      restart();
     }
 
     void move() {
       
-      checkFault();
+      //checkFault();
       
       unsigned long currentMillis = micros(); // take time snapshot
 

@@ -20,6 +20,11 @@ class Clock {
     uint8_t endHour = 20;
     uint8_t endMinute = 0;
 
+    uint8_t restartHour = 5;
+    uint8_t restartMinute = 0;
+
+    uint8_t lastMinute = 0;
+
     char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
 
@@ -39,7 +44,7 @@ class Clock {
 
     void print() {
       DateTime now = rtc.now();
-#if defined(ARDUINO_AVR_UNO)
+      
       Serial.print(now.year(), DEC);
       Serial.print('/');
       Serial.print(now.month(), DEC);
@@ -60,40 +65,28 @@ class Clock {
       Serial.print("s = ");
       Serial.print(now.unixtime() / 86400L);
       Serial.println("d");
-#else
-      Console.print(now.year(), DEC);
-      Console.print('/');
-      Console.print(now.month(), DEC);
-      Console.print('/');
-      Console.print(now.day(), DEC);
-      Console.print(" (");
-      Console.print(daysOfTheWeek[now.dayOfTheWeek()]);
-      Console.print(") ");
-      Console.print(now.hour(), DEC);
-      Console.print(':');
-      Console.print(now.minute(), DEC);
-      Console.print(':');
-      Console.print(now.second(), DEC);
-      Console.println();
-
-      Console.print(" since midnight 1/1/1970 = ");
-      Console.print(now.unixtime());
-      Console.print("s = ");
-      Console.print(now.unixtime() / 86400L);
-      Console.println("d");
-#endif
     }
 
     bool isDay() {
       if (!foundClock)return true;
 
       DateTime now = rtc.now();
-
+      
       return
-        now.hour() >= startHour &&
-        now.hour() < endHour &&
-        now.minute() >= startMinute &&
-        now.minute() < endMinute;
+        now.hour() * 60 + now.minute() >= startHour * 60 + startMinute &&
+        now.hour() * 60 + now.minute() < endHour * 60 + endMinute;
+    }
+
+    bool doRestart(){
+      if (!foundClock)return false;
+
+      DateTime now = rtc.now();
+      
+      uint8_t currentMinute = now.hour() * 60 + now.minute();
+      uint8_t restartMinute = restartHour * 60 + restartMinute;
+      bool myResult = currentMinute == restartMinute && currentMinute < lastMinute;
+      lastMinute = currentMinute;
+      return myResult;
     }
 };
 

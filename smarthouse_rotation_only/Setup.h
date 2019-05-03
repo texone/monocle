@@ -22,13 +22,19 @@ class Setup {
          RANDOM
       */
       theAnimationManager->mode = RANDOM;
-      theAnimationManager->timeMode = DAY;
-      theAnimationManager->amp = 0.9;
+      /*
+         Choose one of
+         DAY,
+         NIGHT,
+         CLOCK
+      */
+      theAnimationManager->timeMode = CLOCK;
+      theAnimationManager->amp = 0.4;
 
       // settings for installation uncomment to run
-      //DEBUG = false;
-      //motor->homing = true;
-      theAnimationManager->mode = CYCLE;
+      DEBUG = true;
+      motor->homing = false;
+      theAnimationManager->mode = PREVIEW;
 
       // Setup animation manager transition speed
       theAnimationManager->transition.speed = 0.08;   //0.25;
@@ -104,26 +110,12 @@ class Setup {
          FULL_ROLL,
          RANDOM_ROLL
       */
-      theAnimationManager->animation(RANDOM_ROLL);
+      theAnimationManager->animation(FULL_ROLL);
     }
 
 
 };
 
-void setDayValues(
-  AnimationManager* theAnimationManager
-) {
-  theAnimationManager->fullRoll.frequency = 0.1;            // max value 0.1
-  theAnimationManager->fullRoll.minCycles = 1;
-  theAnimationManager->fullRoll.maxCycles = 1;
-}
 
-void setNightValues(
-  AnimationManager* theAnimationManager
-) {
-  theAnimationManager->fullRoll.frequency = 1;            // max value 0.1
-  theAnimationManager->fullRoll.minCycles = 1;
-  theAnimationManager->fullRoll.maxCycles = 1;
-}
 
 #endif

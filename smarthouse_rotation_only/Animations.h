@@ -84,7 +84,7 @@ class BaseStillAnimation : public AbstractAnimation {
     void init() {
       AbstractAnimation::init();
       duration = minDuration + dRandom() * (maxDuration - minDuration);
-      println("BASE STILL");
+      if(DEBUG)Serial.println("BASE STILL");
     }
 
     virtual boolean isFinished() {
@@ -103,7 +103,7 @@ class RandomStillAnimation : public BaseStillAnimation {
       BaseStillAnimation::init();
       range(1.0);
       position = dRandomRange();
-      println("RANDOM STILL");
+      if(DEBUG)Serial.println("RANDOM STILL");
     }
 
     double value(double theAmp) {
@@ -125,7 +125,7 @@ class JitterStillAnimation : public BaseStillAnimation {
       BaseStillAnimation::init();
       range(1. - jitterAmplitude);
       position = dRandomRange();
-      println("JITTER STILL");
+      if(DEBUG)Serial.println("JITTER STILL");
     }
 
     virtual double value(double theAmp) {
@@ -178,7 +178,7 @@ class RandomMoveAnimation : public AbstractAnimation {
       
       cycles = random(3, 6);
       cycle = 0;
-      println("RANDOM MOVE");
+      if(DEBUG)Serial.println("RANDOM MOVE");
     }
 
     void update(double theDeltaTime) {
@@ -220,7 +220,7 @@ class JitterMoveAnimation : public RandomMoveAnimation {
     void init() {
       AbstractAnimation::range(1.0 - jitterAmplitude);
       RandomMoveAnimation::init();
-      println("JITTER MOVE");
+      if(DEBUG)Serial.println("JITTER MOVE");
     }
 
     void update(double theDeltaTime) {
@@ -255,7 +255,7 @@ class FullRollAnimation : public AbstractAnimation {
     void init() {
       AbstractAnimation::init();
       cycles = random(minCycles, maxCycles);
-      println("FULL ROLL");
+      if(DEBUG)Serial.println("FULL ROLL");
     }
 
     virtual double value(double theAmp) {
@@ -298,7 +298,7 @@ class RandomRollAnimation : public FullRollAnimation {
       _moveTime = max(abs(delta) / speed, MIN_MOVE_TIME);
       cycles = random(3, 6);
       cycle = 0; 
-      println("RANDOM ROLL");
+      if(DEBUG)Serial.println("RANDOM ROLL");
     }
 
     void update(double theDeltaTime) {
@@ -340,7 +340,7 @@ class TransitionAnimation : public AbstractAnimation {
 
     void init() {
       AbstractAnimation::init();
-      println("TRAnSITION");
+      if(DEBUG)Serial.println("TRAnSITION");
     }
 
     void update(double theDeltaTime) {

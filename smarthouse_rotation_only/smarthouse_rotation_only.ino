@@ -6,8 +6,6 @@
 #include "Motor.h"
 #include "Setup.h"
 #include "Clock.h"
-#include <Console.h>
-#include "TimeLib.h"
 
 
 /*
@@ -27,32 +25,20 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, HIGH);
 
-#if defined(ARDUINO_AVR_UNO)
-  Serial.begin(115200);
-#else
-  Bridge.begin();
-  Console.begin();
-#endif
+  if(DEBUG)Serial.begin(115200);
+
   //clock.setup();
   valueSetup.setValues(&animationManager, &motor);
 
   animationManager.setValues(&clock);
   animationManager.setup();
-  animationManager.daySetup = setDayValues;
-  animationManager.nightSetup = setNightValues;
   motor.setup(&animationManager);
 }
 
-/*
-  long lastMillis = 0;
-
-  long timer = 0;
-*/
-
 void printAnimation(AnimationManager theManager, Motor* motor) {
-  //if(!PRINT_ANIMATION)return;
-  if (loopCount % 1000 != 0)return;
-#if defined(ARDUINO_AVR_UNO)
+  if(!DEBUG)return;
+  if(!PRINT_ANIMATION)return;
+  if (loopCount % 100 != 0)return;
   Serial.print(theManager.steps());
   Serial.print(",");
   Serial.print(motor->currentStep);
@@ -66,24 +52,10 @@ void printAnimation(AnimationManager theManager, Motor* motor) {
   Serial.print(theManager.time());
   Serial.print(",");
   Serial.println(theManager.value());
-#else
-  Console.print(theManager.steps());
-  Console.print(",");
-  Console.print(motor->currentStep);
-  Console.print(",");
-  Console.print(theManager.animationIndex);
-  Console.print(",");
-  Console.print(theManager.inTransition);
-  Console.print(",");
-  Console.print(theManager.updateTime);
-  Console.print(",");
-  Console.print(theManager.time());
-  Console.print(",");
-  Console.println(theManager.value());
-#endif
 }
 
 void loop() {
+    //clock.print();
   animationManager.update();
   motor.target(animationManager.steps());
   motor.move();

@@ -48,9 +48,6 @@ class AnimationManager {
 
     bool inTransition = true;
 
-    void (*daySetup)(AnimationManager*);
-    void (*nightSetup)(AnimationManager*);
-
     Clock* clock;
 
     double _myCurrentPos = 1;
@@ -70,6 +67,26 @@ class AnimationManager {
       clock = theClock;
     }
 
+    void setDayValues(
+    ) {
+      if(DEBUG)Serial.println("SET DAY");
+      /*
+      fullRoll.frequency = 0.1;            // max value 0.1
+      fullRoll.minCycles = 1;
+      fullRoll.maxCycles = 1;
+      */
+    }
+
+    void setNightValues(
+    ) {
+      if(DEBUG)Serial.println("SET NIGHT");
+      /*
+      fullRoll.frequency = 1;            // max value 0.1
+      fullRoll.minCycles = 1;
+      fullRoll.maxCycles = 1;
+      */
+    }
+
     void setup() {
       for (int i = 0; i < 7; i++) {
         propabilitySum += animations[i] -> propability;
@@ -78,19 +95,21 @@ class AnimationManager {
     }
 
     void applySetup() {
-      
+
       switch (timeMode) {
         case DAY:
-          daySetup(this);
+          // daySetup(this);
           break;
         case NIGHT:
-          nightSetup(this);
+          // nightSetup(this);
           break;
         case CLOCK:
-          if(clock->isDay()){
-            daySetup(this);
-          }else{
-            nightSetup(this);
+          if (clock->isDay()) {
+            // Serial.println("DAY");
+            setDayValues();
+          } else {
+            setNightValues();
+            // Serial.println("NIGHT");
           }
           break;
       }
@@ -143,7 +162,7 @@ class AnimationManager {
       return nextAnimation;
     }
 
-    void reset(){
+    void reset() {
       currentAnimation = NULL;
       _myCurrentPos = 1;
       _myVel = 0;
@@ -178,7 +197,7 @@ class AnimationManager {
       double myAcc = (myTarget - (_myCurrentPos +  _myVel * 1)) * 100;
       myAcc = constrain(myAcc, -MAX_ANIMATION_ACC, MAX_ANIMATION_ACC);
       _myVel += myAcc * updateTime;
-      _myVel = constrain(_myVel, -MAX_ANIMATION_VEL,MAX_ANIMATION_VEL);
+      _myVel = constrain(_myVel, -MAX_ANIMATION_VEL, MAX_ANIMATION_VEL);
       _myCurrentPos += _myVel * updateTime;
     }
 
