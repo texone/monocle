@@ -113,11 +113,11 @@ void handleInput() {
   }
 }
 
-void drawCurve(ArrayList<Float> theData, int r, int g, int b){
+void drawCurve(ArrayList<Float> theData, int r, int g, int b, float theSCale){
   stroke(r, g, b);
   beginShape();
   for (int i = 0; i < theData.size(); i++) {
-    vertex(i, theData.get(i) * height/ 2);
+    vertex(i, theData.get(i) * height/ 2 * theSCale);
   }
   endShape();
 }
@@ -128,16 +128,16 @@ void drawCurves() {
   pushMatrix();
   translate(0, 400);
   
-  drawCurve(difBuffer, 130,0,0);
-  drawCurve(targetBuffer, 130,130,0);
-  drawCurve(stepBuffer, 130,130,130);
-  drawCurve(speedBuffer, 255,0,0);
+  drawCurve(difBuffer, 130,0,0,1);
+  drawCurve(targetBuffer, 130,130,0,1);
+  drawCurve(stepBuffer, 130,130,130,1);
+  drawCurve(speedBuffer, 255,0,0,1);
   
   
   stroke(0, 255, 0);
   beginShape();
   for (int i = 0; i < speedBuffer.size(); i++) {
-    vertex(i, speedBuffer.get(i) * height/ 2);
+    vertex(i, speedBuffer.get(i) * height/ 2 * 0.5);
   }
   endShape();
   noStroke();
