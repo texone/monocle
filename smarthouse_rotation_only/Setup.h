@@ -31,11 +31,6 @@ class Setup {
       theAnimationManager->timeMode = CLOCK;
       theAnimationManager->amp = 0.4;
 
-      // settings for installation uncomment to run
-      DEBUG = true;
-      motor->homing = false;
-      theAnimationManager->mode = PREVIEW;
-
       // Setup animation manager transition speed
       theAnimationManager->transition.speed = 0.08;   //0.25;
 
