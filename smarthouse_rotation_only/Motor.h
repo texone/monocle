@@ -38,14 +38,20 @@ class Motor {
 
     void homeCycle() {
       if(DEBUG)Serial.println("START HOME CYCLE");
-      //enable the motor to be ready after homing
-      digitalWrite(ENABLE, HIGH);
 
-      //while(!digitalRead(homePin)) {
-      while (digitalRead(homePin) == !LOW && homing) {
-        //wait for the home signal to activate, (motor; All-Systems-Go actually)
-        delay(20);
-      }
+      // Disable and Enable Drive to Trigger Homing Sequence
+      // The Drive is set to perform a home sequence upon enable
+      digitalWrite(ENABLE, LOW);
+      delay(3000);
+      digitalWrite(ENABLE, HIGH);
+      // It takes about 40 seconds to travel from 
+      delay(50000); // Wait longer than the maximum time it takes to travel from the furthest away to the home
+
+//      //while(!digitalRead(homePin)) {
+//      while (digitalRead(homePin) == LOW) {
+//        //wait for the home signal to activate, (motor; All-Systems-Go actually)
+//        delay(20);
+//      }
       animationManager->reset();
       if(DEBUG)Serial.println("END HOME CYCLE");
       currentStep = MAX_STEPS;

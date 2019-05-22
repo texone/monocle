@@ -24,10 +24,10 @@ class Clock {
     uint8_t restartMinute = 0;
 
     uint8_t lastMinute = 0;
+    
+    unsigned long lastMillis = 0;
 
     char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-
-
 
     void setup() {
       foundClock = rtc.begin();
