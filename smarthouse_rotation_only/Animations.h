@@ -216,9 +216,10 @@ class JitterMoveAnimation : public RandomMoveAnimation {
     double jitterFrequency = 1;
     double jitterFade = 0.1;
     double jitterTime = 0;
+    double jitterRange = 1.0;
 
     void init() {
-      AbstractAnimation::range(1.0 - jitterAmplitude);
+      AbstractAnimation::range(jitterRange - jitterAmplitude);
       RandomMoveAnimation::init();
       if(DEBUG)Serial.println("JITTER MOVE");
     }
